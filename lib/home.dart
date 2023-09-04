@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:timbangan/pages/daftar/daftar_timbang.dart';
-import 'package:timbangan/pages/standar_page.dart';
-import 'package:timbangan/pages/timbangan/timbangan_page.dart';
 import 'package:timbangan/widgets/side_drawer.dart';
 
 import 'controllers/navigation_controller.dart';
 import 'controllers/theme_controller.dart';
-import 'pages/sanguan_page.dart';
 import 'widgets/side_menu.dart';
 import 'widgets/titlebar.dart';
 

@@ -270,7 +270,6 @@ class TimbanganPage extends StatelessWidget {
       floatingActionButton: Obx(() => FloatingActionButton(
             // onPressed: () => cDataTimbang.createDataTimbang(),
             onPressed: () {
-              print(cDataTimbang.noTimbang);
               Get.to(() => const FakturScreenBig());
             },
             // child: Icon(Icons.save),\
