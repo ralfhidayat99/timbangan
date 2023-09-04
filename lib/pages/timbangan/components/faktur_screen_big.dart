@@ -21,10 +21,6 @@ class _FakturScreenBigState extends State<FakturScreenBig> {
     super.initState();
   }
 
-  void refresh() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     double parentWidth = 565;
