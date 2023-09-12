@@ -16,7 +16,7 @@ class DaftarTimbangan extends StatelessWidget {
         future: TimbanganController.getDataTimbang(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            print(snapshot.data['timbangan']);
+            // print(snapshot.data['timbangan']);
             List data = snapshot.data['timbangan'];
             return Column(
                 children: data
@@ -24,7 +24,7 @@ class DaftarTimbangan extends StatelessWidget {
                     .toList());
             // return Text('data');
           } else {
-            return Row(
+            return const Row(
               children: [
                 Text('data'),
               ],

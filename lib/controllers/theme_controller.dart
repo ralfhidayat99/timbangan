@@ -16,10 +16,10 @@ class ThemeController extends GetxController {
   ligthTheme() {
     CustomColors.titleBarColor = const Color.fromARGB(255, 233, 246, 248).obs;
     CustomColors.bgColor = const Color.fromARGB(255, 255, 255, 255).obs;
-    CustomColors.highLightColor = const Color.fromARGB(255, 54, 216, 244).obs;
+    CustomColors.highLightColor = const Color.fromARGB(255, 0, 0, 0).obs;
     CustomColors.btnColorSelected = const Color.fromARGB(255, 13, 71, 161).obs;
     CustomColors.windowBtnArea = const Color.fromARGB(255, 255, 255, 255).obs;
-    CustomColors.cardHeader = Color.fromARGB(255, 248, 248, 248).obs;
+    CustomColors.cardHeader = const Color.fromARGB(255, 248, 248, 248).obs;
     CustomColors.windowMinimizeArea = const Color.fromARGB(255, 1, 0, 10).obs;
     CustomColors.titleBarColor = const Color.fromARGB(255, 233, 246, 248).obs;
 
@@ -31,14 +31,14 @@ class ThemeController extends GetxController {
 
   darkTheme() {
     CustomColors.bgColor = const Color.fromARGB(255, 29, 30, 31).obs;
-    CustomColors.highLightColor = const Color.fromARGB(255, 3, 169, 244).obs;
+    CustomColors.highLightColor = const Color.fromARGB(255, 255, 255, 255).obs;
     CustomColors.btnColorSelected =
         const Color.fromARGB(255, 187, 222, 251).obs;
     CustomColors.windowBtnArea = const Color.fromARGB(255, 66, 66, 66).obs;
     CustomColors.windowMinimizeArea =
         const Color.fromARGB(255, 255, 255, 255).obs;
     CustomColors.cardHeader = const Color.fromARGB(255, 56, 57, 58).obs;
-    CustomColors.titleBarColor = Color.fromARGB(255, 70, 69, 73).obs;
+    CustomColors.titleBarColor = const Color.fromARGB(255, 70, 69, 73).obs;
 
     isDark.value = true;
     box.write('theme', 'dark');
@@ -81,9 +81,9 @@ class CustomColors {
       sideBarColor = const Color.fromARGB(255, 233, 246, 248).obs,
       bgColor = const Color.fromARGB(255, 255, 255, 255).obs,
       bgDarkColor = const Color.fromARGB(255, 0, 0, 0).obs,
-      highLightColor = const Color.fromARGB(255, 244, 67, 54).obs,
+      highLightColor = const Color.fromARGB(255, 0, 0, 0).obs,
       btnColorSelected = const Color.fromARGB(255, 13, 71, 161).obs,
-      cardHeader = Color.fromARGB(255, 235, 243, 243).obs,
+      cardHeader = const Color.fromARGB(255, 235, 243, 243).obs,
       windowBtnArea = const Color.fromARGB(255, 255, 255, 255).obs,
       windowMinimizeArea = const Color.fromARGB(255, 1, 0, 10).obs;
 }

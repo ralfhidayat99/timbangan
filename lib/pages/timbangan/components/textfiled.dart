@@ -3,34 +3,43 @@ import 'package:flutter/services.dart';
 
 import '../../../controllers/theme_controller.dart';
 
-Widget customTextField(
-    TextEditingController controller, String label, Function callback) {
+Widget customTextField(TextEditingController controller, String label,
+    Function callback, bool numberOnly) {
   return SizedBox(
-    height: 40,
-    child: TextField(
+    height: 45,
+    child: TextFormField(
       controller: controller,
       onChanged: (_) => callback(),
-      style: TextStyle(fontSize: 14),
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-      ],
+      style: const TextStyle(fontSize: 14),
+      inputFormatters: numberOnly
+          ? [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+            ]
+          : [],
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
           labelText: label,
+          errorStyle: const TextStyle(fontSize: 9, height: 0.1),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 12)),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return '$label harus diisi';
+        }
+        return null;
+      },
     ),
   );
 }
 
-Widget outputField(context, String prefix, String output, String suffix) {
+Widget resultField(context, String prefix, String output, String suffix) {
   return Container(
     width: double.infinity,
     height: 50,
-    margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+    margin: const EdgeInsets.symmetric(vertical: 2),
     decoration: BoxDecoration(
         border: Border.all(
-          color: CustomColors.highLightColor.value.withAlpha(100),
+          color: CustomColors.highLightColor.value.withAlpha(30),
           width: 2,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(5))),

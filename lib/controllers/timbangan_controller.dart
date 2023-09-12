@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:timbangan/controllers/pelanggan_controller.dart';
 import 'package:timbangan/models/Standard_model.dart';
 import 'package:timbangan/utils/Rest.dart';
 
@@ -14,6 +15,7 @@ class TimbanganController extends GetxController {
       berat = 0.obs,
       tara = 0.obs,
       netto = 0.obs,
+      jmlHrg = 0.obs,
       totalHrg = 0.obs,
       ongKuli = 0.obs;
   RxString hrgGabahView = ''.obs;
@@ -23,11 +25,13 @@ class TimbanganController extends GetxController {
       StandardData(id: '1', kA: 0, hA: 0, hargaGabah: 0, hargaKuli: 0);
   RxBool isProcessing = false.obs;
   RxBool isGettingData = false.obs;
+  var dataTobePrint = {};
 
   @override
   void onInit() {
     super.onInit();
     getInitData();
+    PelangganController.getAllCustomers();
   }
 
   Future getInitData() async {
@@ -55,7 +59,7 @@ class TimbanganController extends GetxController {
       "Harga": stdData.hargaGabah
     };
     var response = await Rest().postR('datatimbang', data);
-    print(response);
+    dataTobePrint = response['data'];
     getInitData();
     isProcessing.value = false;
   }
@@ -79,6 +83,7 @@ class TimbanganController extends GetxController {
 
     kampas.value = (karung * 1.5).ceil();
     berat.value = timbangan - kampas.value - (karung * 0.5).ceil();
+    berat.value = berat < 0 ? 0 : berat.value;
     ongKuli.value = karung * stdData.hargaKuli;
     hitungTara();
   }
@@ -90,8 +95,10 @@ class TimbanganController extends GetxController {
     int kaStandard = stdData.kA;
     int haStandard = stdData.hA;
 
-    tara.value = (kA - kaStandard) + (hA - haStandard);
+    tara.value = ((kA - kaStandard) + (hA - haStandard));
+    tara.value = tara.value < 0 ? 0 : tara.value;
     netto.value = berat.value - (tara.value * berat.value / 100).ceil();
+    jmlHrg.value = stdData.hargaGabah * netto.value;
     totalHrg.value = stdData.hargaGabah * netto.value - ongKuli.value;
     // netto.value = berat.value;
   }

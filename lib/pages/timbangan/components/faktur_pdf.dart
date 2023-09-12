@@ -48,7 +48,7 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth) async {
                       ],
                     )),
                 pw.Spacer(),
-                pw.Text('No ${cTimbangan.noTimbang}',
+                pw.Text('No ${cTimbangan.dataTobePrint['notimbang']}',
                     style: pw.Theme.of(context).header1),
               ]),
               pw.SizedBox(height: 10),
@@ -92,11 +92,18 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth) async {
                       pw.Center(
                           child: pw.Padding(
                         padding: const pw.EdgeInsets.symmetric(vertical: 5.0),
-                        child: pw.Text('Timbangan'),
+                        child: pw.Text(cTimbangan.dataTobePrint['brt_timbangan']
+                            .toString()),
                       )),
-                      pw.Center(child: pw.Text('Karung')),
-                      pw.Center(child: pw.Text('KA')),
-                      pw.Center(child: pw.Text('HA')),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['karung'].toString())),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['KA'].toString())),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['HA'].toString())),
                     ],
                   ),
                 ],
@@ -131,11 +138,18 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth) async {
                       pw.Center(
                           child: pw.Padding(
                         padding: const pw.EdgeInsets.symmetric(vertical: 5.0),
-                        child: pw.Text('Timbangan'),
+                        child: pw.Text(
+                            cTimbangan.dataTobePrint['Kampas'].toString()),
                       )),
-                      pw.Center(child: pw.Text('Karung')),
-                      pw.Center(child: pw.Text('KA')),
-                      pw.Center(child: pw.Text('HA')),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['Berat'].toString())),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['Tara'].toString())),
+                      pw.Center(
+                          child: pw.Text(
+                              cTimbangan.dataTobePrint['Netto'].toString())),
                     ],
                   ),
                 ],
@@ -150,7 +164,9 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth) async {
                           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                           children: [
                             pw.Text('Jumlah'),
-                            pw.Text('19000'),
+                            pw.Text((cTimbangan.dataTobePrint['Netto'] *
+                                    cTimbangan.dataTobePrint['Harga'])
+                                .toString()),
                           ],
                         ),
                         pw.Row(

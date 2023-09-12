@@ -31,14 +31,14 @@ class _SanguanPageState extends State<SanguanPage> {
                     // borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
                     ),
                 // padding: const EdgeInsets.all(10),
-                child: Column(
+                child: const Column(
                   children: [
                     Text('data'),
                   ],
                 )),
           ),
           const SizedBox(width: 3),
-          Expanded(child: Text('asss')) // kolom rincian
+          const Expanded(child: Text('asss')) // kolom rincian
         ],
       ),
     );

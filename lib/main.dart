@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Roboto'),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
