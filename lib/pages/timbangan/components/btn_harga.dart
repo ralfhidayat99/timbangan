@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timbangan/utils/formatter.dart';
 
 import '../../../controllers/timbangan_controller.dart';
 import 'textfiled.dart';
@@ -17,7 +18,7 @@ Widget btnHarga(TimbanganController cDataTimbang) {
           width: 200,
           child: OutlinedButton(
               onPressed: () {
-                tecHarga.text = cDataTimbang.hrgGabahView.value;
+                tecHarga.text = cDataTimbang.hrgGabahView.value.toString();
                 Get.defaultDialog(
                   title: 'Harga Gabah',
                   onConfirm: () =>
@@ -30,7 +31,8 @@ Widget btnHarga(TimbanganController cDataTimbang) {
               //         CustomColors.highLightColor.value)),
               child: Row(
                 children: [
-                  Obx(() => Text('Harga Gabah : ${cDataTimbang.hrgGabahView}')),
+                  Obx(() => Text(
+                      'Harga Gabah : ${formatRupiah(cDataTimbang.hrgGabahView.value)}')),
                   const Spacer(),
                   const Icon(Icons.edit)
                 ],
@@ -43,7 +45,7 @@ Widget btnHarga(TimbanganController cDataTimbang) {
           width: 200,
           child: OutlinedButton(
               onPressed: () {
-                tecHarga.text = cDataTimbang.ongKuliView.value;
+                tecHarga.text = cDataTimbang.ongKuliView.value.toString();
                 Get.defaultDialog(
                   title: 'Ongkos Kuli',
                   onConfirm: () =>
@@ -56,7 +58,8 @@ Widget btnHarga(TimbanganController cDataTimbang) {
               //         CustomColors.highLightColor.value)),
               child: Row(
                 children: [
-                  Obx(() => Text('Ongkos Kuli : ${cDataTimbang.ongKuliView}')),
+                  Obx(() => Text(
+                      'Ongkos Kuli : ${formatRupiah(cDataTimbang.ongKuliView.value)}')),
                   const Spacer(),
                   const Icon(Icons.edit)
                 ],

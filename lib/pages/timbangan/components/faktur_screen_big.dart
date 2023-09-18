@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
+import 'package:timbangan/controllers/timbangan_controller.dart';
+import 'package:timbangan/models/datatimbang_model.dart';
+import 'package:timbangan/models/pelanggan_model.dart';
 
 import 'faktur_pdf.dart';
 
 class FakturScreenBig extends StatefulWidget {
-  const FakturScreenBig({Key? key}) : super(key: key);
+  const FakturScreenBig({Key? key, required this.data, required this.pelanggan})
+      : super(key: key);
+  final DataTimbang data;
+  final Pelanggan pelanggan;
 
   @override
   State<FakturScreenBig> createState() => _FakturScreenBigState();
@@ -15,6 +21,7 @@ class _FakturScreenBigState extends State<FakturScreenBig> {
   String? selectedTruck;
   DateTime dateTime = DateTime.now();
   // final DateFormat tglFormat = DateFormat.yMMMMd('id');
+  TimbanganController cDatatimbang = TimbanganController();
 
   @override
   void initState() {
@@ -34,7 +41,8 @@ class _FakturScreenBigState extends State<FakturScreenBig> {
               // maxPageWidth: 900,
               shouldRepaint: true,
 
-              build: (format) => generatePdf(format, parentWidth),
+              build: (format) => generatePdf(
+                  format, parentWidth, widget.data, widget.pelanggan),
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:timbangan/controllers/pelanggan_controller.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
 
 import '../../controllers/theme_controller.dart';
@@ -38,12 +39,18 @@ class TimbanganPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Obx(() => FloatingActionButton(
-            onPressed: () {
-              if (keyPembeli.currentState!.validate() &&
-                  keyTimbang.currentState!.validate()) {
-                cDataTimbang
-                    .createDataTimbang()
-                    .then((value) => Get.to(() => const FakturScreenBig()));
+            onPressed: () async {
+              if (PelangganController.selectedPelanggan.value.id == '') {
+                if (keyPembeli.currentState!.validate()) {
+                  await PelangganController.addCustomer();
+                }
+              }
+              if (keyTimbang.currentState!.validate()) {
+                cDataTimbang.createDataTimbang().then((value) => Get.to(() =>
+                    FakturScreenBig(
+                        data: cDataTimbang.dataTobePrint,
+                        pelanggan:
+                            PelangganController.selectedPelanggan.value)));
                 // print('proceeed');
               }
             },

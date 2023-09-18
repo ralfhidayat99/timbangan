@@ -4,8 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class Rest {
-  static String baseUrl = "http://192.168.1.6:8000/api/";
-  static var imageUrl = "http://192.168.1.6:8000/images/produk/";
+  // static String baseUrl = "http://192.168.1.6:8000/api/";
+  static String baseUrl = "http://127.0.0.1:8000/api/";
 
   getR(url) async {
     Dio dio = Dio();

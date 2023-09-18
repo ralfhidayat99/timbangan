@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../pages/daftar/daftar_timbang.dart';
-import '../pages/standar_page.dart';
+import '../pages/master/master_page.dart';
 import '../pages/timbangan/timbangan_page.dart';
 
 class NavigationController extends GetxController {
@@ -10,6 +10,6 @@ class NavigationController extends GetxController {
   List page = [
     const TimbanganPage(),
     const DaftarTimbangan(),
-    const StandardPage()
+    const MasterPage()
   ];
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/theme_controller.dart';
 import '../../../controllers/timbangan_controller.dart';
+import '../../../utils/formatter.dart';
 import 'textfiled.dart';
 
 Widget outPutField(context, TimbanganController cDataTimbang) {
@@ -67,13 +68,13 @@ Widget outPutField(context, TimbanganController cDataTimbang) {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                          cDataTimbang.formatRupiah(
+                                          formatRupiah(
                                               cDataTimbang.jmlHrg.value),
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge),
                                       Text(
-                                          cDataTimbang.formatRupiah(
+                                          formatRupiah(
                                               cDataTimbang.ongKuli.value),
                                           style: Theme.of(context)
                                               .textTheme
@@ -97,8 +98,7 @@ Widget outPutField(context, TimbanganController cDataTimbang) {
                                         Theme.of(context).textTheme.titleLarge),
                                 Expanded(
                                   child: Text(
-                                      cDataTimbang.formatRupiah(
-                                          cDataTimbang.totalHrg.value),
+                                      formatRupiah(cDataTimbang.totalHrg.value),
                                       textAlign: TextAlign.end,
                                       style: Theme.of(context)
                                           .textTheme

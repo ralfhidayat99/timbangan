@@ -9,10 +9,7 @@ import 'textfiled.dart';
 
 Widget inputFields(
     context, TimbanganController cDataTimbang, keyTimbang, keyPembeli) {
-  TextEditingController tAlamat = TextEditingController();
-  TextEditingController tNopol = TextEditingController();
   SuggestionsBoxController suggestionBoxController = SuggestionsBoxController();
-  final TextEditingController typeAheadController = TextEditingController();
 
   return SizedBox(
     height: MediaQuery.of(context).size.height * .42,
@@ -57,7 +54,7 @@ Widget inputFields(
                                     vertical: 0, horizontal: 12),
                                 border: OutlineInputBorder(),
                                 labelText: 'Pembeli'),
-                            controller: typeAheadController,
+                            controller: PelangganController.tNama,
                           ),
                           suggestionsCallback: (pattern) {
                             return PelangganController.getSuggestions(pattern);
@@ -76,8 +73,9 @@ Widget inputFields(
                             return suggestionsBox;
                           },
                           onSuggestionSelected: (Pelanggan suggestion) {
-                            typeAheadController.text = suggestion.nama;
-                            tAlamat.text = suggestion.alamat;
+                            PelangganController.tNama.text = suggestion.nama;
+                            PelangganController.tAlamat.text =
+                                suggestion.alamat;
                             PelangganController.selectedPelanggan.value =
                                 suggestion;
                           },
@@ -86,9 +84,11 @@ Widget inputFields(
                               value!.isEmpty ? 'Nama harus diisi' : null,
                         ),
                         const SizedBox(height: 5),
-                        customTextField(tAlamat, 'Alamat', () {}, false),
+                        customTextField(PelangganController.tAlamat, 'Alamat',
+                            () {}, false),
                         const SizedBox(height: 5),
-                        customTextField(tNopol, 'No. Kendaraan', () {}, false),
+                        customTextField(
+                            cDataTimbang.tNopol, 'No. Kendaraan', () {}, false),
                       ],
                     ),
                   ),
@@ -107,12 +107,28 @@ Widget inputFields(
                           child: ElevatedButton(
                             onPressed: () {
                               if (keyPembeli.currentState.validate()) {
-                                PelangganController.addCustomer(
-                                    typeAheadController.text, tAlamat.text);
+                                PelangganController.addCustomer();
                               }
                             },
-                            child: const FittedBox(
-                                fit: BoxFit.fitWidth, child: Text('Tambahkan')),
+                            child: Row(
+                              children: [
+                                if (PelangganController.isProcessing.value)
+                                  const SizedBox.square(
+                                    dimension: 10,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const Expanded(
+                                  child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Text('Tambahkan')),
+                                ),
+                              ],
+                            ),
                           ))),
                     ),
                   )
@@ -143,11 +159,11 @@ Widget inputFields(
                   customTextField(cDataTimbang.cKarung, 'Karung',
                       cDataTimbang.hitungKampas, true),
                   const SizedBox(height: 4),
-                  customTextField(
-                      cDataTimbang.cKA, 'KA', cDataTimbang.hitungTara, true),
+                  customTextField(cDataTimbang.cKA, 'Kadar Air',
+                      cDataTimbang.hitungTara, true),
                   const SizedBox(height: 4),
                   customTextField(
-                      cDataTimbang.cHA, 'HA', cDataTimbang.hitungTara, true),
+                      cDataTimbang.cHA, 'Hampa', cDataTimbang.hitungTara, true),
                   const SizedBox(height: 10),
                 ],
               ),
