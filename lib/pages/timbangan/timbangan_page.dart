@@ -46,11 +46,23 @@ class TimbanganPage extends StatelessWidget {
                 }
               }
               if (keyTimbang.currentState!.validate()) {
-                cDataTimbang.createDataTimbang().then((value) => Get.to(() =>
-                    FakturScreenBig(
+                cDataTimbang
+                    .createDataTimbang()
+                    .then((value) => Get.to(() => FakturScreenBig(
                         data: cDataTimbang.dataTobePrint,
                         pelanggan:
-                            PelangganController.selectedPelanggan.value)));
+                            PelangganController.selectedPelanggan.value)))
+                    .then((value) {
+                  cDataTimbang.cTimbangan.clear();
+                  cDataTimbang.cKarung.clear();
+                  cDataTimbang.cKA.clear();
+                  cDataTimbang.cHA.clear();
+                  cDataTimbang.tNopol.clear();
+                  cDataTimbang.hitungKampas();
+                  cDataTimbang.hitungTara();
+                  PelangganController.tNama.clear();
+                  PelangganController.tAlamat.clear();
+                });
                 // print('proceeed');
               }
             },

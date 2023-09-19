@@ -22,8 +22,8 @@ class TimbanganController extends GetxController {
   RxInt hrgGabahView = 0.obs;
   RxInt ongKuliView = 0.obs;
   RxString noTimbang = '000000'.obs;
-  StandardData stdData =
-      StandardData(id: '1', kA: 0, hA: 0, hargaGabah: 0, hargaKuli: 0);
+  static Rx<StandardData> stdData =
+      StandardData(id: '', kA: 0, hA: 0, hargaGabah: 0, hargaKuli: 0).obs;
   RxBool isProcessing = false.obs;
   RxBool isGettingData = false.obs;
   DataTimbang dataTobePrint = DataTimbang.empty();
@@ -38,9 +38,9 @@ class TimbanganController extends GetxController {
   Future getInitData() async {
     isGettingData.value = true;
     var response = await Rest().getR('datatimbang');
-    stdData = StandardData.fromJson(response['standar']);
-    hrgGabahView.value = stdData.hargaGabah;
-    ongKuliView.value = stdData.hargaKuli;
+    stdData.value = StandardData.fromJson(response['standar']);
+    hrgGabahView.value = stdData.value.hargaGabah;
+    ongKuliView.value = stdData.value.hargaKuli;
     noTimbang.value = response['notimbangan'].toString();
     isGettingData.value = false;
     // print(stdData.hargaGabah);
@@ -58,9 +58,9 @@ class TimbanganController extends GetxController {
         "Berat": berat.value,
         "Tara": tara.value,
         "Netto": netto.value,
-        "Harga": stdData.hargaGabah,
+        "Harga": stdData.value.hargaGabah,
         "id_pembeli": PelangganController.selectedPelanggan.value.id,
-        "kuli": stdData.hargaKuli,
+        "kuli": stdData.value.hargaKuli,
         "nopol": tNopol.text,
       };
       var response = await Rest().postR('datatimbang', data);
@@ -71,11 +71,18 @@ class TimbanganController extends GetxController {
   }
 
   Future updateHarga(harga) async {
-    await Rest().postR('harga/${stdData.id}', harga);
+    await Rest().postR('harga/${stdData.value.id}', harga);
     await getInitData();
     Get.back();
     hitungKampas();
     hitungTara();
+  }
+
+  static Future updateStandar(harga) async {
+    var response = await Rest().postR('harga/${stdData.value.id}', harga);
+    stdData.value = StandardData.fromJson(response);
+
+    Get.back();
   }
 
   static Future getDataTimbang() async {
@@ -92,7 +99,7 @@ class TimbanganController extends GetxController {
     kampas.value = (karung * 1.5).ceil();
     berat.value = timbangan - kampas.value - (karung * 0.5).ceil();
     berat.value = berat < 0 ? 0 : berat.value;
-    ongKuli.value = karung * stdData.hargaKuli;
+    ongKuli.value = karung * stdData.value.hargaKuli;
     hitungTara();
   }
 
@@ -100,14 +107,24 @@ class TimbanganController extends GetxController {
     int kA = cKA.text == '' ? 0 : int.parse(cKA.text);
     int hA = cHA.text == '' ? 0 : int.parse(cHA.text);
 
-    int kaStandard = stdData.kA;
-    int haStandard = stdData.hA;
+    int kaStandard = stdData.value.kA;
+    int haStandard = stdData.value.hA;
 
     tara.value = ((kA - kaStandard) + (hA - haStandard));
     tara.value = tara.value < 0 ? 0 : tara.value;
     netto.value = berat.value - (tara.value * berat.value / 100).ceil();
-    jmlHrg.value = stdData.hargaGabah * netto.value;
-    totalHrg.value = stdData.hargaGabah * netto.value - ongKuli.value;
+    jmlHrg.value = stdData.value.hargaGabah * netto.value;
+    totalHrg.value = stdData.value.hargaGabah * netto.value - ongKuli.value;
     // netto.value = berat.value;
+  }
+
+  @override
+  void dispose() {
+    cTimbangan.clear();
+    cKarung.clear();
+    cKA.clear();
+    cHA.clear();
+    tNopol.clear();
+    super.dispose();
   }
 }

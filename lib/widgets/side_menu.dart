@@ -28,16 +28,16 @@ class SideMenu extends StatelessWidget {
           labelType: NavigationRailLabelType.selected,
           destinations: const [
             NavigationRailDestination(
-              icon: Icon(Icons.money_off),
-              label: Text('Menu1'),
+              icon: Icon(Icons.scale),
+              label: Text('Timbangan'),
             ),
             NavigationRailDestination(
               icon: Icon(Icons.list),
-              label: Text('Menu2'),
+              label: Text('Transaksi'),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.local_shipping),
-              label: Text('Menu3'),
+              icon: Icon(Icons.dataset),
+              label: Text('Master'),
             ),
           ],
         ));

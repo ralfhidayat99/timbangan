@@ -23,7 +23,9 @@ class PageWrapper extends StatelessWidget {
             child: tittle,
           ),
           const Divider(),
-          content
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(top: 0), child: content))
         ],
       ),
     );

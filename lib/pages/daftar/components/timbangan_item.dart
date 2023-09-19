@@ -19,13 +19,16 @@ class TimbanganItem extends StatelessWidget {
   }
 
   Widget dataTimbangTile(DataTimbang data, context) {
-    TextStyle numberStyle = TextStyle(
+    TextStyle numberStyle = const TextStyle(
         fontFamily: 'RobotoCondensed',
         fontSize: 18,
         fontWeight: FontWeight.w500);
     Pelanggan pelanggan = PelangganController.findById(data.idPembeli);
     return Card(
-      elevation: 2,
+      margin: const EdgeInsets.all(1),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero, // Ubah radius sesuai keinginan Anda
+      ),
       child: ListTile(
         onTap: () => Get.to(() => FakturScreenBig(
               data: data,

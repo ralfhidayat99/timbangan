@@ -45,4 +45,9 @@ class PelangganController extends GetxController {
     return Pelanggan
         .empty(); // Mengembalikan null jika pelanggan tidak ditemukan
   }
+
+  static Future getTopCust() async {
+    List response = await Rest().getR('topcustomer');
+    return response;
+  }
 }

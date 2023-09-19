@@ -65,7 +65,7 @@ class DataTimbang {
         harga: json['Harga'],
         idPembeli: json['id_pembeli'].toString(),
         kuli: json['kuli'],
-        nopol: json['nopol'],
+        nopol: json['nopol'] ?? '',
         notimbang: json['id'].toString().padLeft(6, '0'),
         tanggal: formatTanggal(DateTime.parse(json['created_at'])),
       );

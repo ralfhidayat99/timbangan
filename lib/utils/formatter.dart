@@ -7,6 +7,23 @@ String formatRupiah(int value) {
   return formatter.format(value);
 }
 
+String formatTonase(double value) {
+  // format dengan ribuan separator dan 2 digit desimal
+  String satuan = 'Kg';
+  if (value >= 100 && value < 1000) {
+    satuan = 'Kw';
+    value = value / 100;
+  }
+  if (value >= 1000) {
+    satuan = 'Ton';
+    value = value / 1000;
+  }
+  final formatter =
+      NumberFormat.currency(locale: 'id_ID', symbol: '', decimalDigits: 2);
+  var tonase = formatter.format(value);
+  return '$tonase $satuan';
+}
+
 String formatTanggal(DateTime tanggal) {
   // Daftar nama hari dalam bahasa Indonesia
   final namaHari = [

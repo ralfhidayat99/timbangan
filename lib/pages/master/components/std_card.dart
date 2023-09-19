@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:timbangan/controllers/timbangan_controller.dart';
 import 'package:timbangan/utils/formatter.dart';
 
 import '../../../controllers/theme_controller.dart';
+import '../../timbangan/components/textfiled.dart';
 
 class StdCard extends StatelessWidget {
   const StdCard(
-      {super.key, required this.title, required this.value, required this.url});
+      {super.key, required this.title, required this.value, required this.std});
 
   final String title;
   final int value;
-  final String url;
+  final String std;
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController tec = TextEditingController();
+    tec.text = value.toString();
+
     TextStyle numberStyle = TextStyle(
         fontFamily: 'RobotoCondensed',
         fontSize: 24,
         fontWeight:
             ThemeController.isDark.value ? FontWeight.w500 : FontWeight.bold);
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => Get.defaultDialog(
+          title: title,
+          content: customTextField(tec, title, () {}, true),
+          onConfirm: () => TimbanganController.updateStandar({std: tec.text})),
       style: ButtonStyle(
           foregroundColor: ThemeController.isDark.value
               ? MaterialStateProperty.all(Colors.white)
@@ -30,7 +39,7 @@ class StdCard extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * .175,
+            width: MediaQuery.of(context).size.width * .17,
             padding: const EdgeInsets.symmetric(vertical: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

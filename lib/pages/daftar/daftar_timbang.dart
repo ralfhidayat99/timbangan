@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
 import 'package:timbangan/pages/daftar/components/timbangan_item.dart';
 import 'package:timbangan/widgets/wraper.dart';
@@ -12,34 +13,63 @@ class DaftarTimbangan extends StatelessWidget {
     return PageWrapper(
       tittle: SizedBox(
           width: double.infinity,
-          child: Text('Daftar Transaksi',
-              style: Theme.of(context).textTheme.titleLarge)),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text('Daftar Transaksi',
+                    style: Theme.of(context).textTheme.titleLarge),
+              ),
+              IconButton(
+                  onPressed: () => Get.defaultDialog(
+                        title: 'Pilih Tangal',
+                        onConfirm: () => Get.back(),
+                        content: SizedBox(
+                            height: 300,
+                            width: 400,
+                            child: SfDateRangePicker(
+                                selectionMode:
+                                    DateRangePickerSelectionMode.range,
+                                showNavigationArrow: true,
+                                onSelectionChanged: _onSelectionChanged)),
+                      ),
+                  icon: const Icon(Icons.date_range))
+            ],
+          )),
       content: FutureBuilder(
         future: TimbanganController.getDataTimbang(),
         builder: (context, snapshot) {
-          return Column(
-            children: [
-              AnimatedSwitcher(
-                  duration: 500.milliseconds,
-                  transitionBuilder: (child, animation) {
-                    const begin = Offset(0.0, 0.2);
-                    const end = Offset.zero;
-                    const curve = Curves.fastLinearToSlowEaseIn;
-                    final tween = Tween(begin: begin, end: end);
-                    final curvedAnimation =
-                        CurvedAnimation(parent: animation, curve: curve);
-                    return SlideTransition(
-                      position: tween.animate(curvedAnimation),
-                      child: child,
-                    );
-                  },
-                  child: snapshot.hasData
-                      ? TimbanganItem(data: snapshot.data)
-                      : const SizedBox())
-            ],
+          return SizedBox(
+            child: SingleChildScrollView(
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  AnimatedSwitcher(
+                      duration: 500.milliseconds,
+                      transitionBuilder: (child, animation) {
+                        const begin = Offset(0.0, 0.2);
+                        const end = Offset.zero;
+                        const curve = Curves.fastLinearToSlowEaseIn;
+                        final tween = Tween(begin: begin, end: end);
+                        final curvedAnimation =
+                            CurvedAnimation(parent: animation, curve: curve);
+                        return SlideTransition(
+                          position: tween.animate(curvedAnimation),
+                          child: child,
+                        );
+                      },
+                      child: snapshot.hasData
+                          ? TimbanganItem(data: snapshot.data)
+                          : const SizedBox())
+                ],
+              ),
+            ),
           );
         },
       ),
     );
+  }
+
+  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+    print(args.value);
   }
 }

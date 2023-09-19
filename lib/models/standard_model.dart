@@ -15,9 +15,9 @@ class StandardData {
 
   factory StandardData.fromJson(Map<String, dynamic> json) => StandardData(
         id: json['id'].toString(),
-        kA: json['KA'],
-        hA: json['HA'],
-        hargaGabah: json['harga_gabah'],
-        hargaKuli: json['harga_kuli'],
+        kA: int.parse(json['KA'].toString()),
+        hA: int.parse(json['HA'].toString()),
+        hargaGabah: int.parse(json['harga_gabah'].toString()),
+        hargaKuli: int.parse(json['harga_kuli'].toString()),
       );
 }
