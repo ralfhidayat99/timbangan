@@ -11,34 +11,43 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final cNav = Get.put(NavigationController());
 
-    return Obx(() => NavigationRail(
-          selectedIndex: cNav.selectedIndex.value,
-          selectedLabelTextStyle: TextStyle(
-              color: ThemeController.isDark.value
-                  ? Colors.blue[100]
-                  : Colors.blue[900]),
-          selectedIconTheme: IconThemeData(
-              color: ThemeController.isDark.value
-                  ? Colors.blue[100]
-                  : Colors.blue[900]),
-          backgroundColor: CustomColors.titleBarColor.value,
-          onDestinationSelected: (int index) {
-            cNav.selectedIndex.value = index;
-          },
-          labelType: NavigationRailLabelType.selected,
-          destinations: const [
-            NavigationRailDestination(
-              icon: Icon(Icons.scale),
-              label: Text('Timbangan'),
+    return Obx(() => Column(
+          children: [
+            Expanded(
+              child: NavigationRail(
+                selectedIndex: cNav.selectedIndex.value,
+                selectedLabelTextStyle: TextStyle(
+                    color: ThemeController.isDark.value
+                        ? Colors.blue[100]
+                        : Colors.blue[900]),
+                selectedIconTheme: IconThemeData(
+                    color: ThemeController.isDark.value
+                        ? Colors.blue[100]
+                        : Colors.blue[900]),
+                backgroundColor: CustomColors.titleBarColor.value,
+                onDestinationSelected: (int index) {
+                  cNav.selectedIndex.value = index;
+                },
+                labelType: NavigationRailLabelType.selected,
+                destinations: const [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.scale),
+                    label: Text('DT'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.list),
+                    label: Text('Transaksi'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.dataset),
+                    label: Text('Master'),
+                  ),
+                ],
+              ),
             ),
-            NavigationRailDestination(
-              icon: Icon(Icons.list),
-              label: Text('Transaksi'),
-            ),
-            NavigationRailDestination(
-              icon: Icon(Icons.dataset),
-              label: Text('Master'),
-            ),
+            SizedBox(
+                height: 80,
+                child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)))
           ],
         ));
   }

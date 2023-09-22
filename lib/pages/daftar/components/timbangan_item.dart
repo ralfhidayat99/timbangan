@@ -19,11 +19,11 @@ class TimbanganItem extends StatelessWidget {
   }
 
   Widget dataTimbangTile(DataTimbang data, context) {
+    Pelanggan pelanggan = PelangganController.findById(data.idPelanggan);
     TextStyle numberStyle = const TextStyle(
         fontFamily: 'RobotoCondensed',
         fontSize: 18,
         fontWeight: FontWeight.w500);
-    Pelanggan pelanggan = PelangganController.findById(data.idPembeli);
     return Card(
       margin: const EdgeInsets.all(1),
       shape: const RoundedRectangleBorder(
@@ -75,7 +75,7 @@ class TimbanganItem extends StatelessWidget {
               ),
               VerticalDivider(),
               Text(
-                'Rp ${formatRupiah(data.netto * data.harga)}',
+                'Rp ${formatRupiah(data.totalHarga)}',
                 style: numberStyle,
               ),
             ],

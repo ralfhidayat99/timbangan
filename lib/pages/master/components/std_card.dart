@@ -39,7 +39,7 @@ class StdCard extends StatelessWidget {
         alignment: Alignment.topRight,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * .17,
+            width: MediaQuery.of(context).size.width * .12,
             padding: const EdgeInsets.symmetric(vertical: 18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,7 +53,7 @@ class StdCard extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 5.0),
+                  padding: const EdgeInsets.only(top: 15.0),
                   child: FittedBox(
                     fit: BoxFit.fitWidth,
                     child: Text(
@@ -62,8 +62,6 @@ class StdCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const FittedBox(
-                    fit: BoxFit.fitWidth, child: Text('Terakhir diedit')),
               ],
             ),
           ),

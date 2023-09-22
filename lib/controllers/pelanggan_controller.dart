@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:timbangan/models/pelanggan_model.dart';
 import 'package:timbangan/utils/Rest.dart';
 
@@ -9,9 +10,12 @@ class PelangganController extends GetxController {
   static RxBool isProcessing = false.obs;
   static TextEditingController tAlamat = TextEditingController();
   static TextEditingController tNama = TextEditingController();
+  static final box = GetStorage();
+  static var user = box.read('user');
 
   static void getAllCustomers() async {
-    List res = await Rest().getR('customers');
+    var user = box.read('user');
+    List res = await Rest().getR('customers/${user['id']}');
     pelanggans = res.map((e) => Pelanggan.fromJson(e)).toList();
   }
 
@@ -29,6 +33,7 @@ class PelangganController extends GetxController {
     var data = {
       'nama': tNama.text,
       'alamat': tAlamat.text,
+      'factory_id': user['factory_id'],
     };
     var res = await Rest().postR('customers', data);
     selectedPelanggan.value = Pelanggan.fromJson(res['data']);

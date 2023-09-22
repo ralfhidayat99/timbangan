@@ -17,7 +17,7 @@ class Rest {
       return res.data;
     } catch (e) {
       Get.snackbar('OOps!!!', 'sepertinya terjadi masalah');
-      return e;
+      return {'error': true, 'message': e};
     }
   }
 
@@ -26,6 +26,7 @@ class Rest {
 
     try {
       var res = await dio.post(baseUrl + url, data: data);
+      // print(res);
       return res.data;
     } catch (e) {
       Get.snackbar('OOps!!!', 'sepertinya terjadi masalah');

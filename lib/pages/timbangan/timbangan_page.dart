@@ -4,7 +4,7 @@ import 'package:timbangan/controllers/pelanggan_controller.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
 
 import '../../controllers/theme_controller.dart';
-import 'components/btn_harga.dart';
+import 'components/potongan_list.dart';
 import 'components/faktur_screen_big.dart';
 import 'components/input_fields.dart';
 import 'components/output_field.dart';
@@ -31,9 +31,7 @@ class TimbanganPage extends StatelessWidget {
           children: [
             loadingIndicator(cDataTimbang),
             inputFields(context, cDataTimbang, keyTimbang, keyPembeli),
-            const Divider(),
-            btnHarga(cDataTimbang),
-            const Divider(),
+            PotonganList(cTimbangan: cDataTimbang),
             Expanded(child: outPutField(context, cDataTimbang)),
           ],
         ),
@@ -62,7 +60,7 @@ class TimbanganPage extends StatelessWidget {
                   cDataTimbang.hitungTara();
                   PelangganController.tNama.clear();
                   PelangganController.tAlamat.clear();
-                });
+                }).then((value) => cDataTimbang.getInitData());
                 // print('proceeed');
               }
             },

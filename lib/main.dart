@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:timbangan/home.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'auth/login_page.dart';
 import 'controllers/theme_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Must add this line.
   await windowManager.ensureInitialized();
+  await GetStorage.init();
 
   WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 700),
@@ -47,7 +49,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Roboto'),
-      home: const HomePage(),
+      // home: const HomePage(),
+      home: const LoginPage(),
     );
   }
 }

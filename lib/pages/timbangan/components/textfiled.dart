@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../controllers/theme_controller.dart';
+import '../../../utils/formatter.dart';
 
 Widget customTextField(TextEditingController controller, String label,
     Function callback, bool numberOnly) {
@@ -9,7 +10,18 @@ Widget customTextField(TextEditingController controller, String label,
     height: 45,
     child: TextFormField(
       controller: controller,
-      onChanged: (_) => callback(),
+      onChanged: (value) {
+        final numericValue = int.tryParse(value.replaceAll('.', ''));
+        if (numericValue != null) {
+          final formattedValue = formatRupiah(numericValue);
+          controller.value = TextEditingValue(
+            text: formattedValue,
+            selection: TextSelection.collapsed(offset: formattedValue.length),
+          );
+          print(controller.text);
+        }
+        callback();
+      },
       style: const TextStyle(fontSize: 14),
       inputFormatters: numberOnly
           ? [
@@ -32,7 +44,7 @@ Widget customTextField(TextEditingController controller, String label,
   );
 }
 
-Widget resultField(context, String prefix, String output, String suffix) {
+Widget resultField(context, String prefix, int output, String suffix) {
   return Container(
     width: double.infinity,
     height: 50,
@@ -65,7 +77,7 @@ Widget resultField(context, String prefix, String output, String suffix) {
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(
-                output,
+                formatRupiah(output),
                 style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 21,

@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:timbangan/models/datatimbang_model.dart';
@@ -181,7 +182,7 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                       pw.SizedBox(),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Jumlah', style: tdReg)),
+                          child: pw.Text('Jumlah Kotor', style: tdReg)),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
                           child: pw.Text(
@@ -198,12 +199,40 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                       pw.SizedBox(),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Ongkos Kuli')),
+                          child: pw.Text('Potongan Kuli')),
+                      pw.Align(
+                          alignment: pw.Alignment.bottomRight,
+                          child: pw.Text(formatRupiah(dataTimbang.potonganKuli),
+                              style: tdBold)),
+                    ],
+                  ),
+                  pw.TableRow(
+                    children: <pw.Widget>[
+                      pw.SizedBox(),
+                      pw.SizedBox(),
+                      pw.SizedBox(),
+                      pw.Align(
+                          alignment: pw.Alignment.bottomRight,
+                          child: pw.Text('Potongan Karung')),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
                           child: pw.Text(
-                              formatRupiah(
-                                  dataTimbang.kuli * dataTimbang.karung),
+                              formatRupiah(dataTimbang.potonganKarung),
+                              style: tdBold)),
+                    ],
+                  ),
+                  pw.TableRow(
+                    children: <pw.Widget>[
+                      pw.SizedBox(),
+                      pw.SizedBox(),
+                      pw.SizedBox(),
+                      pw.Align(
+                          alignment: pw.Alignment.bottomRight,
+                          child: pw.Text('Potongan Angkut')),
+                      pw.Align(
+                          alignment: pw.Alignment.bottomRight,
+                          child: pw.Text(
+                              formatRupiah(dataTimbang.potonganAngkut),
                               style: tdBold)),
                     ],
                   ),
@@ -224,14 +253,17 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                       pw.SizedBox(),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Total')),
+                          child: pw.Text('Total',
+                              style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.normal))),
                       pw.Align(
                           alignment: pw.Alignment.bottomRight,
                           child: pw.Text(
-                              formatRupiah(
-                                  (dataTimbang.netto * dataTimbang.harga) -
-                                      (dataTimbang.kuli * dataTimbang.karung)),
-                              style: tdBold)),
+                              'Rp ${formatRupiah((dataTimbang.totalHarga))}',
+                              style: pw.TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: pw.FontWeight.normal))),
                     ],
                   ),
                 ],

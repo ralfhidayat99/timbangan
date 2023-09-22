@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:printing/printing.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
 import 'package:timbangan/models/datatimbang_model.dart';
-import 'package:timbangan/models/pelanggan_model.dart';
 
+import '../../../models/pelanggan_model.dart';
 import 'faktur_pdf.dart';
 
 class FakturScreenBig extends StatefulWidget {
