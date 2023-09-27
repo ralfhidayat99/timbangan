@@ -6,7 +6,8 @@ import '../../../utils/formatter.dart';
 
 Widget customTextField(TextEditingController controller, String label,
     Function callback, bool numberOnly) {
-  return SizedBox(
+  return Container(
+    color: CustomColors.windowBtnArea.value,
     height: 45,
     child: TextFormField(
       controller: controller,
@@ -18,7 +19,6 @@ Widget customTextField(TextEditingController controller, String label,
             text: formattedValue,
             selection: TextSelection.collapsed(offset: formattedValue.length),
           );
-          print(controller.text);
         }
         callback();
       },

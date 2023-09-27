@@ -27,13 +27,14 @@ String formatTonase(double value) {
 String formatTanggal(DateTime tanggal) {
   // Daftar nama hari dalam bahasa Indonesia
   final namaHari = [
-    'Minggu',
+    '',
     'Senin',
     'Selasa',
     'Rabu',
     'Kamis',
     'Jumat',
     'Sabtu',
+    'Minggu',
   ];
 
   // Daftar nama bulan dalam bahasa Indonesia
@@ -54,6 +55,7 @@ String formatTanggal(DateTime tanggal) {
   ];
 
   final hari = namaHari[tanggal.weekday];
+  // final hari = tanggal.weekday;
   final tanggalBulan = DateFormat.d().format(tanggal);
   final bulan = namaBulan[tanggal.month];
   final tahun = DateFormat.y().format(tanggal);

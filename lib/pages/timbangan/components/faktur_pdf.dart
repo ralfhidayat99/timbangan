@@ -1,7 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:timbangan/models/datatimbang_model.dart';
@@ -23,7 +22,9 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
       pw.TextStyle(fontSize: 21, fontWeight: pw.FontWeight.bold);
   pw.TextStyle th =
       pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold);
-  pw.TextStyle tdReg = pw.TextStyle(color: PdfColors.black);
+  pw.TextStyle tdReg = const pw.TextStyle(color: PdfColors.black);
+  pw.TextStyle tdSmall =
+      const pw.TextStyle(color: PdfColors.black, fontSize: 8);
   pw.TextStyle tdBold =
       pw.TextStyle(color: PdfColors.black, fontWeight: pw.FontWeight.bold);
 
@@ -53,10 +54,16 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                       ],
                     )),
                 pw.Spacer(),
-                pw.Text('No.${dataTimbang.notimbang}',
-                    style: pw.Theme.of(context).header1),
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                  children: [
+                    pw.Text(dataTimbang.tanggal),
+                    pw.Text('No.${dataTimbang.notimbang}',
+                        style: pw.Theme.of(context).header1),
+                  ],
+                ),
               ]),
-              pw.SizedBox(height: 10),
+              pw.SizedBox(height: 5),
               pw.Center(
                 child: pw.Text('DAFTAR TIMBANGAN MASUK',
                     style: pw.TextStyle(
@@ -140,7 +147,21 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                     decoration: const pw.BoxDecoration(color: PdfColors.grey),
                     children: <pw.Widget>[
                       pw.Center(child: pw.Text('Kampas', style: th)),
-                      pw.Center(child: pw.Text('Potongan Karung', style: th)),
+                      pw.Center(
+                          child: pw.Column(
+                        children: [
+                          pw.Text('Potongan',
+                              style: pw.TextStyle(
+                                  fontSize: 10,
+                                  color: PdfColors.white,
+                                  fontWeight: pw.FontWeight.bold)),
+                          pw.Text('Karung',
+                              style: pw.TextStyle(
+                                  fontSize: 10,
+                                  color: PdfColors.white,
+                                  fontWeight: pw.FontWeight.bold)),
+                        ],
+                      )),
                       pw.Center(child: pw.Text('Berat', style: th)),
                       pw.Center(child: pw.Text('Tara', style: th)),
                       pw.Center(child: pw.Text('Netto', style: th)),
@@ -163,111 +184,151 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                   ),
                 ],
               ),
-              pw.SizedBox(height: 5),
-              pw.Table(
-                columnWidths: const <int, pw.TableColumnWidth>{
-                  0: pw.FlexColumnWidth(0.5),
-                  1: pw.FlexColumnWidth(0.2),
-                  2: pw.FlexColumnWidth(1),
-                  3: pw.FlexColumnWidth(1),
-                  4: pw.FlexColumnWidth(1),
-                  5: pw.FlexColumnWidth(0.3),
-                },
-                defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
-                children: <pw.TableRow>[
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Jumlah Kotor', style: tdReg)),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text(
-                              formatRupiah(
-                                  dataTimbang.netto * dataTimbang.harga),
-                              style: tdBold)),
-                      pw.SizedBox(),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Potongan Kuli')),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text(formatRupiah(dataTimbang.potonganKuli),
-                              style: tdBold)),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Potongan Karung')),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text(
-                              formatRupiah(dataTimbang.potonganKarung),
-                              style: tdBold)),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Potongan Angkut')),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text(
-                              formatRupiah(dataTimbang.potonganAngkut),
-                              style: tdBold)),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.Divider(),
-                      pw.Divider(),
-                      pw.Divider(),
-                      pw.Divider(),
-                      pw.Divider(),
-                      pw.Divider(),
-                    ],
-                  ),
-                  pw.TableRow(
-                    children: <pw.Widget>[
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.SizedBox(),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text('Total',
-                              style: pw.TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: pw.FontWeight.normal))),
-                      pw.Align(
-                          alignment: pw.Alignment.bottomRight,
-                          child: pw.Text(
-                              'Rp ${formatRupiah((dataTimbang.totalHarga))}',
-                              style: pw.TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: pw.FontWeight.normal))),
-                    ],
-                  ),
-                ],
-              ),
+              pw.Divider(height: 30),
+              pw.Row(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  mainAxisAlignment: pw.MainAxisAlignment.start,
+                  children: [
+                    pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Table(border: pw.TableBorder.all(), children: [
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Penimbang', style: tdSmall)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Jr.Rafaksi', style: tdSmall)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Jr.Kerani', style: tdSmall)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Penjual', style: tdSmall)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Korektor', style: tdSmall)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(8),
+                                  child: pw.Text('Pembuku', style: tdSmall)),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(20),
+                                  child: pw.Text('', style: tdReg)),
+                              pw.Container(
+                                  alignment: pw.Alignment.center,
+                                  padding: const pw.EdgeInsets.all(20),
+                                  child: pw.Text('', style: tdReg)),
+                            ],
+                          ),
+                        ]),
+                        pw.SizedBox(height: 3),
+                        pw.Text(
+                            '@Harga Gabah: Rp ${formatRupiah(dataTimbang.harga)}',
+                            style: pw.TextStyle(
+                                fontSize: 8, fontStyle: pw.FontStyle.italic))
+                      ],
+                    ),
+                    pw.Spacer(),
+                    pw.SizedBox(
+                      width: 250,
+                      child: pw.Table(
+                        // border: pw.TableBorder.all(),
+                        defaultVerticalAlignment:
+                            pw.TableCellVerticalAlignment.middle,
+                        children: <pw.TableRow>[
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child:
+                                      pw.Text('Jumlah Kotor :', style: tdReg)),
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text(
+                                      formatRupiah(dataTimbang.netto *
+                                          dataTimbang.harga),
+                                      style: tdBold)),
+                              pw.SizedBox(),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text('Potongan Kuli :')),
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text(
+                                      formatRupiah(dataTimbang.potonganKuli),
+                                      style: tdBold)),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text('Potongan Karung :')),
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text(
+                                      formatRupiah(dataTimbang.potonganKarung),
+                                      style: tdBold)),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text('Potongan Angkut :')),
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text(
+                                      formatRupiah(dataTimbang.potonganAngkut),
+                                      style: tdBold)),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Divider(),
+                              pw.Divider(),
+                              pw.Divider(),
+                              pw.Divider(),
+                            ],
+                          ),
+                          pw.TableRow(
+                            children: <pw.Widget>[
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text('Total',
+                                      style: pw.TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: pw.FontWeight.normal))),
+                              pw.Align(
+                                  alignment: pw.Alignment.bottomRight,
+                                  child: pw.Text(
+                                      'Rp ${formatRupiah((dataTimbang.totalHarga))}',
+                                      style: pw.TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: pw.FontWeight.normal))),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ]),
             ],
           ),
         );

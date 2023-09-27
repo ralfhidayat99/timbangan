@@ -28,7 +28,8 @@ class StdCard extends StatelessWidget {
       onPressed: () => Get.defaultDialog(
           title: title,
           content: customTextField(tec, title, () {}, true),
-          onConfirm: () => TimbanganController.updateStandar({std: tec.text})),
+          onConfirm: () => TimbanganController.updateStandar(
+              {std: tec.text.replaceAll('.', '')})),
       style: ButtonStyle(
           foregroundColor: ThemeController.isDark.value
               ? MaterialStateProperty.all(Colors.white)

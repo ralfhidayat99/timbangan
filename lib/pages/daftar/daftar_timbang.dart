@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
 import 'package:timbangan/pages/daftar/components/timbangan_item.dart';
+import 'package:timbangan/utils/formatter.dart';
 import 'package:timbangan/widgets/wraper.dart';
 
-class DaftarTimbangan extends StatelessWidget {
+class DaftarTimbangan extends StatefulWidget {
   const DaftarTimbangan({super.key});
 
+  @override
+  State<DaftarTimbangan> createState() => _DaftarTimbanganState();
+}
+
+class _DaftarTimbanganState extends State<DaftarTimbangan> {
+  String tglAwal = DateFormat('y-MM-dd').format(DateTime.now());
+  String tglAkhir = DateFormat('y-MM-dd').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return PageWrapper(
@@ -19,10 +28,13 @@ class DaftarTimbangan extends StatelessWidget {
                 child: Text('Daftar Transaksi',
                     style: Theme.of(context).textTheme.titleLarge),
               ),
-              IconButton(
+              OutlinedButton(
                   onPressed: () => Get.defaultDialog(
                         title: 'Pilih Tangal',
-                        onConfirm: () => Get.back(),
+                        onConfirm: () {
+                          Get.back();
+                          setState(() {});
+                        },
                         content: SizedBox(
                             height: 300,
                             width: 400,
@@ -32,12 +44,26 @@ class DaftarTimbangan extends StatelessWidget {
                                 showNavigationArrow: true,
                                 onSelectionChanged: _onSelectionChanged)),
                       ),
-                  icon: const Icon(Icons.date_range))
+                  child: Row(
+                    children: [
+                      const Icon(Icons.date_range),
+                      Text(filterView())
+                    ],
+                  ))
             ],
           )),
       content: FutureBuilder(
-        future: TimbanganController.getDataTimbang(),
+        future: TimbanganController.getDataTimbang(tglAwal, tglAkhir),
         builder: (context, snapshot) {
+          Widget child;
+          if (snapshot.connectionState == ConnectionState.done) {
+            List data = snapshot.data;
+            child = data.isNotEmpty
+                ? TimbanganItem(data: snapshot.data)
+                : const Text('Tidak Ada Data');
+          } else {
+            child = const SizedBox();
+          }
           return SizedBox(
             child: SingleChildScrollView(
               clipBehavior: Clip.antiAlias,
@@ -57,9 +83,7 @@ class DaftarTimbangan extends StatelessWidget {
                           child: child,
                         );
                       },
-                      child: snapshot.hasData
-                          ? TimbanganItem(data: snapshot.data)
-                          : const SizedBox())
+                      child: child)
                 ],
               ),
             ),
@@ -70,6 +94,16 @@ class DaftarTimbangan extends StatelessWidget {
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-    print(args.value);
+    PickerDateRange tgl = args.value;
+    tglAwal = tgl.startDate.toString().split(' ')[0];
+    tglAkhir =
+        tgl.endDate != null ? tgl.endDate.toString().split(' ')[0] : tglAwal;
+  }
+
+  String filterView() {
+    String awal = formatTanggal(DateTime.parse(tglAwal));
+    String akhir = formatTanggal(DateTime.parse(tglAkhir));
+
+    return akhir == awal ? awal : '$awal - $akhir';
   }
 }

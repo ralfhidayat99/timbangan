@@ -19,6 +19,7 @@ class DataTimbang {
   final String notimbang;
   final String tanggal;
   final int totalHarga;
+  final bool canceled;
 
   DataTimbang({
     required this.id,
@@ -39,31 +40,35 @@ class DataTimbang {
     required this.notimbang,
     required this.tanggal,
     required this.totalHarga,
+    required this.canceled,
   });
-  DataTimbang.empty(
-      {this.id = '',
-      this.idPelanggan = '',
-      this.brtTimbangan = 0,
-      this.karung = 0,
-      this.kadarAir = 0,
-      this.hampa = 0,
-      this.kampas = 0,
-      this.berat = 0,
-      this.tara = 0,
-      this.netto = 0,
-      this.harga = 0,
-      this.potonganKuli = 0,
-      this.potonganKarung = 0,
-      this.potonganAngkut = 0,
-      this.nopol = '',
-      this.notimbang = '',
-      this.tanggal = '',
-      this.totalHarga = 0});
+  DataTimbang.empty({
+    this.id = '',
+    this.idPelanggan = '',
+    this.brtTimbangan = 0,
+    this.karung = 0,
+    this.kadarAir = 0,
+    this.hampa = 0,
+    this.kampas = 0,
+    this.berat = 0,
+    this.tara = 0,
+    this.netto = 0,
+    this.harga = 0,
+    this.potonganKuli = 0,
+    this.potonganKarung = 0,
+    this.potonganAngkut = 0,
+    this.nopol = '',
+    this.notimbang = '',
+    this.tanggal = '',
+    this.totalHarga = 0,
+    this.canceled = true,
+  });
 
   factory DataTimbang.fromJson(Map<String, dynamic> json) => DataTimbang(
       id: json['id'].toString(),
       idPelanggan: json['id_pembeli'].toString(),
-      brtTimbangan: int.parse(json['brt_timbangan'].toString()),
+      brtTimbangan:
+          int.parse(json['brt_timbangan'].toString().replaceAll('.', '')),
       karung: int.parse(json['karung'].toString()),
       kadarAir: int.parse(json['KA'].toString()),
       hampa: int.parse(json['HA'].toString()),
@@ -78,6 +83,8 @@ class DataTimbang {
       nopol: json['nopol'] ?? '',
       notimbang: json['notimbang'],
       tanggal: formatTanggal(DateTime.parse(json['created_at'])),
+      // tanggal: '',
+      canceled: json['canceled'].toString() == '0' ? false : true,
       totalHarga: (json['Netto'] * json['Harga']) -
           json['potongan_kuli'] -
           json['potongan_angkut'] -

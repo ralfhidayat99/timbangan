@@ -15,7 +15,7 @@ class ThemeController extends GetxController {
 
   ligthTheme() {
     CustomColors.titleBarColor = const Color.fromARGB(255, 233, 246, 248).obs;
-    CustomColors.bgColor = const Color.fromARGB(255, 252, 252, 252).obs;
+    CustomColors.bgColor = const Color.fromARGB(255, 251, 252, 250).obs;
     CustomColors.highLightColor = const Color.fromARGB(255, 0, 0, 0).obs;
     CustomColors.btnColorSelected = const Color.fromARGB(255, 13, 71, 161).obs;
     CustomColors.windowBtnArea = const Color.fromARGB(255, 255, 255, 255).obs;
@@ -79,7 +79,7 @@ class ThemeController extends GetxController {
 class CustomColors {
   static var titleBarColor = const Color.fromARGB(255, 233, 246, 248).obs,
       sideBarColor = const Color.fromARGB(255, 233, 246, 248).obs,
-      bgColor = Color.fromARGB(255, 255, 255, 255).obs,
+      bgColor = const Color.fromARGB(255, 251, 252, 250).obs,
       bgDarkColor = const Color.fromARGB(255, 0, 0, 0).obs,
       highLightColor = const Color.fromARGB(255, 0, 0, 0).obs,
       btnColorSelected = const Color.fromARGB(255, 13, 71, 161).obs,

@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:timbangan/auth/login_page.dart';
 import 'package:timbangan/home.dart';
 
 import '../utils/Rest.dart';
+import '../utils/storage.dart';
 
 class AuthController extends GetxController {
   static RxBool isLoading = false.obs;
   static RxBool showPass = false.obs;
-
   static RxBool rememberMe = false.obs;
 
-  static final box = GetStorage();
+  static DataStorage storage = DataStorage();
 
   static Future login(username, password) async {
     isLoading.value = true;
@@ -22,18 +22,21 @@ class AuthController extends GetxController {
     isLoading.value = false;
 
     if (res['status'] == 200) {
-      var data = res['user'];
+      var user = res['user'];
+      var pabrik = res['factory'];
 
-      box.write('user', {
-        'id': data['id'],
-        'name': data['name'],
-        'factory_id': data['factory_id'],
-        'login': true,
-      });
+      storage.writeUser(user);
+      storage.writePabrik(pabrik);
 
       Get.to(() => const HomePage());
     } else {
       Get.snackbar('Login failed', res['message']);
     }
+  }
+
+  static logout() {
+    // DataStorage.box.erase();
+    storage.box.erase();
+    Get.offAll(() => const LoginPage());
   }
 }

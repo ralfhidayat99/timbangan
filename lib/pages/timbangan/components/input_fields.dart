@@ -3,6 +3,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:timbangan/controllers/pelanggan_controller.dart';
 
+import '../../../controllers/theme_controller.dart';
 import '../../../controllers/timbangan_controller.dart';
 import '../../../models/pelanggan_model.dart';
 import 'textfiled.dart';
@@ -43,45 +44,50 @@ Widget inputFields(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TypeAheadFormField(
-                          textFieldConfiguration: TextFieldConfiguration(
-                            // onEditingComplete: () => PelangganController.selectedPelanggan = Pelanggan.empty(),
-                            onChanged: (value) => PelangganController
-                                .selectedPelanggan.value = Pelanggan.empty(),
-                            decoration: const InputDecoration(
-                                errorStyle: TextStyle(fontSize: 9, height: 0.1),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 0, horizontal: 12),
-                                border: OutlineInputBorder(),
-                                labelText: 'Pembeli'),
-                            controller: PelangganController.tNama,
+                        Container(
+                          color: CustomColors.windowBtnArea.value,
+                          child: TypeAheadFormField(
+                            textFieldConfiguration: TextFieldConfiguration(
+                              // onEditingComplete: () => PelangganController.selectedPelanggan = Pelanggan.empty(),
+                              onChanged: (value) => PelangganController
+                                  .selectedPelanggan.value = Pelanggan.empty(),
+                              decoration: InputDecoration(
+                                  errorStyle:
+                                      TextStyle(fontSize: 9, height: 0.1),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 0, horizontal: 12),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Pembeli'),
+                              controller: PelangganController.tNama,
+                            ),
+                            suggestionsCallback: (pattern) {
+                              return PelangganController.getSuggestions(
+                                  pattern);
+                            },
+                            itemBuilder: (context, Pelanggan suggestion) {
+                              return ListTile(
+                                title: Text(suggestion.nama),
+                                subtitle: Text(suggestion.alamat),
+                              );
+                            },
+                            itemSeparatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            transitionBuilder:
+                                (context, suggestionsBox, controller) {
+                              return suggestionsBox;
+                            },
+                            onSuggestionSelected: (Pelanggan suggestion) {
+                              PelangganController.tNama.text = suggestion.nama;
+                              PelangganController.tAlamat.text =
+                                  suggestion.alamat;
+                              PelangganController.selectedPelanggan.value =
+                                  suggestion;
+                            },
+                            suggestionsBoxController: suggestionBoxController,
+                            validator: (value) =>
+                                value!.isEmpty ? 'Nama harus diisi' : null,
                           ),
-                          suggestionsCallback: (pattern) {
-                            return PelangganController.getSuggestions(pattern);
-                          },
-                          itemBuilder: (context, Pelanggan suggestion) {
-                            return ListTile(
-                              title: Text(suggestion.nama),
-                              subtitle: Text(suggestion.alamat),
-                            );
-                          },
-                          itemSeparatorBuilder: (context, index) {
-                            return const Divider();
-                          },
-                          transitionBuilder:
-                              (context, suggestionsBox, controller) {
-                            return suggestionsBox;
-                          },
-                          onSuggestionSelected: (Pelanggan suggestion) {
-                            PelangganController.tNama.text = suggestion.nama;
-                            PelangganController.tAlamat.text =
-                                suggestion.alamat;
-                            PelangganController.selectedPelanggan.value =
-                                suggestion;
-                          },
-                          suggestionsBoxController: suggestionBoxController,
-                          validator: (value) =>
-                              value!.isEmpty ? 'Nama harus diisi' : null,
                         ),
                         const SizedBox(height: 5),
                         customTextField(PelangganController.tAlamat, 'Alamat',

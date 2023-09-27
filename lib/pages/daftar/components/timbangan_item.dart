@@ -29,60 +29,94 @@ class TimbanganItem extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.zero, // Ubah radius sesuai keinginan Anda
       ),
-      child: ListTile(
-        onTap: () => Get.to(() => FakturScreenBig(
-              data: data,
-              pelanggan: pelanggan,
-            )),
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 30,
-              width: 100,
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-              decoration: BoxDecoration(
-                  color: CustomColors.highLightColor.value.withAlpha(30),
-                  borderRadius: const BorderRadius.all(Radius.circular(15))),
-              child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: Text(
-                    'No : ${data.notimbang}',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  )),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          if (data.canceled) cancelStamp(),
+          ListTile(
+            tileColor: data.canceled
+                ? CustomColors.bgColor.value
+                : Theme.of(context).cardColor.withAlpha(1),
+            onTap: data.canceled
+                ? null
+                : () => Get.to(() => FakturScreenBig(
+                      data: data,
+                      pelanggan: pelanggan,
+                    )),
+            leading: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 30,
+                  width: 100,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: CustomColors.highLightColor.value.withAlpha(30),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(15))),
+                  child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        'No : ${data.notimbang}',
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      )),
+                ),
+              ],
             ),
-          ],
-        ),
-        title: Text(
-          pelanggan.nama.toUpperCase(),
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(pelanggan.alamat),
-            Text(data.tanggal),
-          ],
-        ),
-        trailing: SizedBox(
-          width: MediaQuery.of(context).size.width * .4,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                '${formatRupiah(data.netto)} Kg',
-                style: numberStyle,
+            title: Text(
+              pelanggan.nama.toUpperCase(),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(pelanggan.alamat),
+                Text(data.tanggal),
+              ],
+            ),
+            trailing: SizedBox(
+              width: MediaQuery.of(context).size.width * .4,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    '${formatRupiah(data.netto)} Kg',
+                    style: numberStyle,
+                  ),
+                  const VerticalDivider(),
+                  Text(
+                    'Rp ${formatRupiah(data.totalHarga)}',
+                    style: numberStyle,
+                  ),
+                ],
               ),
-              VerticalDivider(),
-              Text(
-                'Rp ${formatRupiah(data.totalHarga)}',
-                style: numberStyle,
-              ),
-            ],
+            ),
+            isThreeLine: true,
           ),
-        ),
-        isThreeLine: true,
+        ],
       ),
     );
+  }
+
+  Widget cancelStamp() {
+    return Container(
+        width: 120,
+        transform: Matrix4.rotationZ(-0.1),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+        margin: const EdgeInsets.only(left: 70, top: 25),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            border: Border.all(width: 1, color: Colors.red.withAlpha(200))),
+        child: Row(
+          children: [
+            Icon(Icons.cancel, color: Colors.red.withAlpha(150)),
+            const Spacer(),
+            Text(
+              'DIBATALKAN',
+              style: TextStyle(color: Colors.red.withAlpha(200)),
+            )
+          ],
+        ));
   }
 }

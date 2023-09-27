@@ -94,7 +94,7 @@ class LoginPage extends StatelessWidget {
                             width: 250,
                             child: TextField(
                               controller: cUsername,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'Username',
                                 border: OutlineInputBorder(),
                               ),

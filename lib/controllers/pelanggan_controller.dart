@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:timbangan/models/pelanggan_model.dart';
 import 'package:timbangan/utils/Rest.dart';
+import 'package:timbangan/utils/storage.dart';
 
 class PelangganController extends GetxController {
   static List<Pelanggan> pelanggans = [];
@@ -10,12 +10,12 @@ class PelangganController extends GetxController {
   static RxBool isProcessing = false.obs;
   static TextEditingController tAlamat = TextEditingController();
   static TextEditingController tNama = TextEditingController();
-  static final box = GetStorage();
-  static var user = box.read('user');
+  static DataStorage storage = DataStorage();
 
   static void getAllCustomers() async {
-    var user = box.read('user');
-    List res = await Rest().getR('customers/${user['id']}');
+    var pabrik = storage.box.read('pabrik');
+
+    List res = await Rest().getR('customers/${pabrik['id']}');
     pelanggans = res.map((e) => Pelanggan.fromJson(e)).toList();
   }
 
@@ -29,11 +29,13 @@ class PelangganController extends GetxController {
   }
 
   static Future addCustomer() async {
+    var pabrik = storage.box.read('pabrik');
+
     isProcessing.value = true;
     var data = {
       'nama': tNama.text,
       'alamat': tAlamat.text,
-      'factory_id': user['factory_id'],
+      'factory_id': pabrik['id'],
     };
     var res = await Rest().postR('customers', data);
     selectedPelanggan.value = Pelanggan.fromJson(res['data']);
@@ -52,7 +54,9 @@ class PelangganController extends GetxController {
   }
 
   static Future getTopCust() async {
-    List response = await Rest().getR('topcustomer');
+    var pabrik = storage.box.read('pabrik');
+
+    List response = await Rest().getR('topcustomer/${pabrik['id']}');
     return response;
   }
 }

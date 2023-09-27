@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:timbangan/controllers/pelanggan_controller.dart';
+import 'package:timbangan/home.dart';
 import 'package:timbangan/models/datatimbang_model.dart';
 import 'package:timbangan/utils/Rest.dart';
+import 'package:timbangan/utils/storage.dart';
 
 import '../models/standard_model.dart';
 
@@ -36,8 +37,7 @@ class TimbanganController extends GetxController {
   static RxBool potonganAngkut = false.obs;
   static RxBool potonganKuli = false.obs;
   static RxBool potonganKarung = false.obs;
-  static final box = GetStorage();
-  var user = box.read('user');
+  static DataStorage storage = DataStorage();
 
   @override
   void onInit() {
@@ -47,8 +47,10 @@ class TimbanganController extends GetxController {
   }
 
   Future getInitData() async {
+    var pabrik = storage.box.read('pabrik');
+
     isGettingData.value = true;
-    var response = await Rest().getR('datatimbang/${user['factory_id']}');
+    var response = await Rest().getR('datatimbang/${pabrik['id']}');
     stdData.value = StandardData.fromJson(response['standar']);
     hrgGabahView.value = stdData.value.hargaGabah;
     ongKuliView.value = stdData.value.hargaKuli;
@@ -58,12 +60,14 @@ class TimbanganController extends GetxController {
   }
 
   Future createDataTimbang() async {
+    var pabrik = storage.box.read('pabrik');
+
     if (PelangganController.selectedPelanggan.value.id != '') {
       isProcessing.value = true;
       var data = {
-        "factory_id": user['factory_id'],
+        "factory_id": pabrik['id'],
         "notimbang": noTimbang.value,
-        "brt_timbangan": cTimbangan.text,
+        "brt_timbangan": cTimbangan.text.replaceAll('.', ''),
         "karung": cKarung.text,
         "KA": cKA.text,
         "HA": cHA.text,
@@ -94,6 +98,11 @@ class TimbanganController extends GetxController {
     hitungTara();
   }
 
+  Future cancel(id) async {
+    await Rest().getR('datatimbang/$id/cancel');
+    Get.to(() => const HomePage());
+  }
+
   static Future updateStandar(harga) async {
     var response = await Rest().postR('harga/${stdData.value.id}', harga);
     stdData.value = StandardData.fromJson(response);
@@ -101,12 +110,16 @@ class TimbanganController extends GetxController {
     Get.back();
   }
 
-  static Future getDataTimbang() async {
-    var user = box.read('user');
-    var response = await Rest().getR('listtimbangan/${user['factory_id']}');
+  static Future getDataTimbang(String tglAwal, String tglAkhir) async {
+    var pabrik = storage.box.read('pabrik');
+
+    var response = await Rest().postR('listtimbangan/${pabrik['id']}',
+        {"tanggal_awal": tglAwal, "tanggal_akhir": tglAkhir});
     List daftar = response['timbangan'];
-    daftar = daftar.map((e) => DataTimbang.fromJson(e)).toList();
-    return daftar;
+    List<DataTimbang> daftarTimbang = daftar
+        .map((e) => DataTimbang.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return daftarTimbang;
   }
 
   void hitungKampas() {
@@ -159,6 +172,7 @@ class TimbanganController extends GetxController {
     cKA.clear();
     cHA.clear();
     tNopol.clear();
+
     super.dispose();
   }
 }
