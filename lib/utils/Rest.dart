@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 
 class Rest {
   // static String baseUrl = "http://192.168.1.6:8000/api/";
-  static String baseUrl = "http://127.0.0.1:8000/api/";
+  // static String baseUrl = "http://127.0.0.1:8000/api/";
+  static String baseUrl = "https://digitaldt.berasratu.com/api/";
 
   getR(url) async {
     Dio dio = Dio();

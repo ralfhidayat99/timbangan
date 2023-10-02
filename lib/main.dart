@@ -18,7 +18,7 @@ void main() async {
       backgroundColor: Colors.white,
       center: true,
       skipTaskbar: false,
-      title: "Timbangan",
+      title: "Digital DT",
       titleBarStyle: TitleBarStyle.hidden,
       windowButtonVisibility: false);
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
       cTheme.ligthTheme();
     }
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Digital DT',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Roboto'),
       // home: const HomePage(),

@@ -22,7 +22,7 @@ class TitleBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 MoveWindow(child: const FlutterLogo(size: 20)),
-                const Text(' Timbangan'),
+                const Text(' Digital DT'),
                 // const Spacer(),
                 Expanded(child: MoveWindow()),
                 WindowButton(

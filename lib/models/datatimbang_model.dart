@@ -85,10 +85,11 @@ class DataTimbang {
       tanggal: formatTanggal(DateTime.parse(json['created_at'])),
       // tanggal: '',
       canceled: json['canceled'].toString() == '0' ? false : true,
-      totalHarga: (json['Netto'] * json['Harga']) -
-          json['potongan_kuli'] -
-          json['potongan_angkut'] -
-          json['potongan_karung']);
+      totalHarga: (int.parse(json['Netto'].toString()) *
+              int.parse(json['Harga'].toString())) -
+          int.parse(json['potongan_kuli'].toString()) -
+          int.parse(json['potongan_angkut'].toString()) -
+          int.parse(json['potongan_karung'].toString()));
 }
 
 class DataRekap {
