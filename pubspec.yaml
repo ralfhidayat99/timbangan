@@ -34,6 +34,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   flutter:
     sdk: flutter
+  flutter_sliding_up_panel: ^2.1.1
   flutter_typeahead: ^4.7.0
   get: ^4.6.5
   get_storage: ^2.1.1

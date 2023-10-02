@@ -28,12 +28,11 @@ class TimbanganController extends GetxController {
   RxInt hrgGabahView = 0.obs;
   RxInt ongKuliView = 0.obs;
   RxString noTimbang = '000000'.obs;
-  static Rx<StandardData> stdData = StandardData(
-          id: '', kA: 0, hA: 0, hargaGabah: 0, hargaKuli: 0, hargaKarung: 0)
-      .obs;
   RxBool isProcessing = false.obs;
   RxBool isGettingData = false.obs;
   DataTimbang dataTobePrint = DataTimbang.empty();
+  static Rx<StandardData> stdData = StandardData.empty().obs;
+  static Rx<DataRekap> rekap = DataRekap.empty().obs;
   static RxBool potonganAngkut = false.obs;
   static RxBool potonganKuli = false.obs;
   static RxBool potonganKarung = false.obs;
@@ -116,9 +115,15 @@ class TimbanganController extends GetxController {
     var response = await Rest().postR('listtimbangan/${pabrik['id']}',
         {"tanggal_awal": tglAwal, "tanggal_akhir": tglAkhir});
     List daftar = response['timbangan'];
-    List<DataTimbang> daftarTimbang = daftar
-        .map((e) => DataTimbang.fromJson(e as Map<String, dynamic>))
-        .toList();
+
+    // int totalNetto = 0, totalBayar = 0;
+    List<DataTimbang> daftarTimbang = daftar.map((e) {
+      return DataTimbang.fromJson(e as Map<String, dynamic>);
+    }).toList();
+    // totalNetto = int.parse(response['totalNetto'].toString());
+    // totalBayar = int.parse(response['totalBayar'].toString());
+    rekap.value = DataRekap.fromJson(response['rekap']);
+    // print(totalBayar);
     return daftarTimbang;
   }
 

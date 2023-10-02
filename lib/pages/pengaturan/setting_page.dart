@@ -31,9 +31,12 @@ class SettingPage extends StatelessWidget {
                   children: [
                     Align(
                       alignment: Alignment.topRight,
-                      child: IconButton(
-                          onPressed: () => AuthController.logout(),
-                          icon: const Icon(Icons.logout_rounded)),
+                      child: Tooltip(
+                        message: 'Keluar',
+                        child: IconButton(
+                            onPressed: () => AuthController.logout(),
+                            icon: const Icon(Icons.logout_rounded)),
+                      ),
                     ),
                     const CircleAvatar(
                       radius: 50,

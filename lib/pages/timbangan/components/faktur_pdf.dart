@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:typed_data';
+import 'package:get_storage/get_storage.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:timbangan/models/datatimbang_model.dart';
@@ -15,6 +16,8 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
     version: PdfVersion.pdf_1_5,
     compress: true,
   );
+  final box = GetStorage();
+  var pabrik = box.read('pabrik');
 
   final pw.TextStyle tContent = pw.TextStyle(
       fontSize: 9, color: PdfColors.black, fontWeight: pw.FontWeight.bold);
@@ -45,12 +48,13 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                       mainAxisAlignment: pw.MainAxisAlignment.start,
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
-                        pw.Text('PT. RATU MAKMUR ABADI', style: thead1),
+                        pw.Text(pabrik['name'].toString().toUpperCase(),
+                            style: thead1),
                         pw.Text(
-                          'Singojuruh - Banyuwangi',
+                          pabrik['address'],
                           style: tContent,
                         ),
-                        pw.Text('Telp. (03333) 86564', style: tContent),
+                        pw.Text('Telp. ${pabrik['phone']}', style: tContent),
                       ],
                     )),
                 pw.Spacer(),

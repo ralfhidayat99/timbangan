@@ -15,6 +15,15 @@ class StandardData {
     required this.hargaKarung,
   });
 
+  StandardData.empty({
+    this.id = '',
+    this.kA = 0,
+    this.hA = 0,
+    this.hargaGabah = 0,
+    this.hargaKarung = 0,
+    this.hargaKuli = 0,
+  });
+
   factory StandardData.fromJson(Map<String, dynamic> json) => StandardData(
         id: json['id'].toString(),
         kA: int.parse(json['kadar_air'].toString().replaceAll('.', '')),

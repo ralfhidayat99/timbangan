@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:timbangan/controllers/timbangan_controller.dart';
+import 'package:timbangan/pages/daftar/components/rekap_panel.dart';
 import 'package:timbangan/pages/daftar/components/timbangan_item.dart';
 import 'package:timbangan/utils/formatter.dart';
 import 'package:timbangan/widgets/wraper.dart';
@@ -49,46 +50,55 @@ class _DaftarTimbanganState extends State<DaftarTimbangan> {
                       const Icon(Icons.date_range),
                       Text(filterView())
                     ],
-                  ))
+                  )),
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.analytics_outlined))
             ],
           )),
-      content: FutureBuilder(
-        future: TimbanganController.getDataTimbang(tglAwal, tglAkhir),
-        builder: (context, snapshot) {
-          Widget child;
-          if (snapshot.connectionState == ConnectionState.done) {
-            List data = snapshot.data;
-            child = data.isNotEmpty
-                ? TimbanganItem(data: snapshot.data)
-                : const Text('Tidak Ada Data');
-          } else {
-            child = const SizedBox();
-          }
-          return SizedBox(
-            child: SingleChildScrollView(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                children: [
-                  AnimatedSwitcher(
-                      duration: 500.milliseconds,
-                      transitionBuilder: (child, animation) {
-                        const begin = Offset(0.0, 0.2);
-                        const end = Offset.zero;
-                        const curve = Curves.fastLinearToSlowEaseIn;
-                        final tween = Tween(begin: begin, end: end);
-                        final curvedAnimation =
-                            CurvedAnimation(parent: animation, curve: curve);
-                        return SlideTransition(
-                          position: tween.animate(curvedAnimation),
-                          child: child,
-                        );
-                      },
-                      child: child)
-                ],
-              ),
-            ),
-          );
-        },
+      content: Stack(
+        children: [
+          FutureBuilder(
+            future: TimbanganController.getDataTimbang(tglAwal, tglAkhir),
+            builder: (context, snapshot) {
+              Widget child;
+              if (snapshot.connectionState == ConnectionState.done) {
+                List data = snapshot.data;
+                child = data.isNotEmpty
+                    ? TimbanganItem(data: snapshot.data)
+                    : const Align(
+                        alignment: Alignment.center,
+                        child: Text('Tidak Ada Data'));
+              } else {
+                child = const SizedBox();
+              }
+              return SizedBox(
+                child: SingleChildScrollView(
+                  clipBehavior: Clip.antiAlias,
+                  child: Column(
+                    children: [
+                      AnimatedSwitcher(
+                          duration: 500.milliseconds,
+                          transitionBuilder: (child, animation) {
+                            const begin = Offset(0.0, 0.2);
+                            const end = Offset.zero;
+                            const curve = Curves.fastLinearToSlowEaseIn;
+                            final tween = Tween(begin: begin, end: end);
+                            final curvedAnimation = CurvedAnimation(
+                                parent: animation, curve: curve);
+                            return SlideTransition(
+                              position: tween.animate(curvedAnimation),
+                              child: child,
+                            );
+                          },
+                          child: child)
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          RekapPanel()
+        ],
       ),
     );
   }

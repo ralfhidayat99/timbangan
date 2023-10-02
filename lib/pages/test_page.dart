@@ -1,53 +1,281 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sliding_up_panel/flutter_sliding_up_panel.dart';
 
 class TestPage extends StatefulWidget {
   @override
-  TestPageState createState() => TestPageState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _TestPageState();
+  }
 }
 
-class TestPageState extends State<TestPage>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
+class _TestPageState extends State<TestPage> {
+  bool showPerformance = false;
 
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 5000),
-      vsync: this,
-    );
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
+  onSettingCallback() {
+    setState(() {
+      showPerformance = !showPerformance;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Demo"),
+    // TODO: implement build
+    final appTitle = 'Sliding up panel Example';
+    return MaterialApp(
+      title: appTitle,
+      showPerformanceOverlay: showPerformance,
+      home: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          return MyHomePage(
+            title: appTitle,
+            onSetting: onSettingCallback,
+          );
+        },
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            RotationTransition(
-              turns: Tween(begin: 0.0, end: 1.0).animate(_controller),
-              child: Icon(Icons.stars),
+    );
+  }
+}
+
+// The StatefulWidget's job is to take in some data and create a State class.
+// In this case, the Widget takes a title, and creates a _MyHomePageState.
+class MyHomePage extends StatefulWidget {
+  final String title;
+
+  final VoidCallback onSetting;
+
+  MyHomePage({Key? key, required this.title, required this.onSetting})
+      : super(key: key);
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+// The State class is responsible for two things: holding some data you can
+// update and building the UI using that data.
+class _MyHomePageState extends State<MyHomePage> {
+  // Whether the green box should be visible or invisible
+
+  late ScrollController scrollController;
+
+  ///The controller of sliding up panel
+  SlidingUpPanelController panelController = SlidingUpPanelController();
+
+  double minBound = 0;
+
+  double upperBound = 1.0;
+
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.offset >=
+              scrollController.position.maxScrollExtent &&
+          !scrollController.position.outOfRange) {
+        panelController.expand();
+      } else if (scrollController.offset <=
+              scrollController.position.minScrollExtent &&
+          !scrollController.position.outOfRange) {
+        panelController.anchor();
+      } else {}
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  widget.onSetting.call();
+                },
+              )
+            ],
+          ),
+          body: Center(
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('Show panel'),
+                  onPressed: () {
+                    panelController.expand();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('Anchor panel'),
+                  onPressed: () {
+                    panelController.anchor();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('Expand panel'),
+                  onPressed: () {
+                    panelController.expand();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('Collapse panel'),
+                  onPressed: () {
+                    panelController.collapse();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('Hide panel'),
+                  onPressed: () {
+                    panelController.hide();
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('minimumBound 0.3'),
+                  onPressed: () {
+                    setState(() {
+                      minBound = 0.3;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 50.0),
+                ),
+                TextButton(
+                  child: Text('upperBound 0.7'),
+                  onPressed: () {
+                    setState(() {
+                      upperBound = 0.7;
+                    });
+                  },
+                ),
+              ],
             ),
-            ElevatedButton(
-              child: Text("go"),
-              onPressed: () => _controller.forward(),
-            ),
-            ElevatedButton(
-              child: Text("reset"),
-              onPressed: () => _controller.reset(),
-            ),
-          ],
+          ),
         ),
-      ),
+        SlidingUpPanelWidget(
+          controlHeight: 50.0,
+          anchor: 0.4,
+          minimumBound: minBound,
+          upperBound: upperBound,
+          panelController: panelController,
+          onTap: () {
+            ///Customize the processing logic
+            if (SlidingUpPanelStatus.expanded == panelController.status) {
+              panelController.collapse();
+            } else {
+              panelController.expand();
+            }
+          },
+          enableOnTap: true,
+          //Enable the onTap callback for control bar.
+          dragDown: (details) {
+            print('dragDown');
+          },
+          dragStart: (details) {
+            print('dragStart');
+          },
+          dragCancel: () {
+            print('dragCancel');
+          },
+          dragUpdate: (details) {
+            print(
+                'dragUpdate,${panelController.status == SlidingUpPanelStatus.dragging ? 'dragging' : ''}');
+          },
+          dragEnd: (details) {
+            print('dragEnd');
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 15.0),
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shadows: [
+                BoxShadow(
+                    blurRadius: 5.0,
+                    spreadRadius: 2.0,
+                    color: const Color(0x11000000))
+              ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                ),
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  alignment: Alignment.center,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.menu,
+                        size: 30,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                        ),
+                      ),
+                      Text(
+                        'click or drag',
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
+                  height: 50.0,
+                ),
+                Divider(
+                  height: 0.5,
+                  color: Colors.grey[300],
+                ),
+                Flexible(
+                  child: Container(
+                    child: ListView.separated(
+                      controller: scrollController,
+                      physics: ClampingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('list item $index'),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Divider(
+                          height: 0.5,
+                        );
+                      },
+                      shrinkWrap: true,
+                      itemCount: 20,
+                    ),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

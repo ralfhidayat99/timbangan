@@ -90,3 +90,55 @@ class DataTimbang {
           json['potongan_angkut'] -
           json['potongan_karung']);
 }
+
+class DataRekap {
+  final int totalNetto;
+  final int totalBayar;
+  final int totalTransaksi;
+  final int totalBiayaKuli;
+  final int totalBiayaKarung;
+  final int totalBiayaAngkut;
+  final int totalKarungTerjual;
+  final int rataHampa;
+  final int rataKadarair;
+  final int rataTara;
+
+  DataRekap({
+    required this.totalNetto,
+    required this.totalBayar,
+    required this.rataHampa,
+    required this.rataKadarair,
+    required this.totalBiayaAngkut,
+    required this.totalBiayaKarung,
+    required this.totalBiayaKuli,
+    required this.totalKarungTerjual,
+    required this.totalTransaksi,
+    required this.rataTara,
+  });
+
+  DataRekap.empty({
+    this.totalNetto = 0,
+    this.totalBayar = 0,
+    this.rataHampa = 0,
+    this.rataKadarair = 0,
+    this.totalBiayaAngkut = 0,
+    this.totalBiayaKarung = 0,
+    this.totalBiayaKuli = 0,
+    this.totalKarungTerjual = 0,
+    this.totalTransaksi = 0,
+    this.rataTara = 0,
+  });
+
+  factory DataRekap.fromJson(Map<String, dynamic> json) => DataRekap(
+        totalNetto: int.parse(json['totalNetto'].toString()),
+        totalBayar: int.parse(json['totalBayar'].toString()),
+        rataHampa: int.parse(json['rataHampa'].toString()),
+        rataKadarair: int.parse(json['rataKadarAir'].toString()),
+        totalBiayaAngkut: int.parse(json['totalBiayaAngkut'].toString()),
+        totalBiayaKarung: int.parse(json['totalBiayaKarung'].toString()),
+        totalBiayaKuli: int.parse(json['totalBiayaKuli'].toString()),
+        totalKarungTerjual: int.parse(json['totalKarungTerjual'].toString()),
+        totalTransaksi: int.parse(json['totalTransaksi'].toString()),
+        rataTara: int.parse(json['rataTara'].toString()),
+      );
+}

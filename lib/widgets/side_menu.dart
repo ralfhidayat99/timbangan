@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:timbangan/pages/pengaturan/setting_page.dart';
+import 'package:timbangan/pages/test_page.dart';
 
 import '../controllers/navigation_controller.dart';
 import '../controllers/theme_controller.dart';
