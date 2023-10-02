@@ -12,7 +12,7 @@ class MasterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageWrapper(
-      tittle: Text('Master', style: Theme.of(context).textTheme.titleLarge),
+      tittle: Text('Data', style: Theme.of(context).textTheme.titleLarge),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,17 +42,13 @@ class MasterPage extends StatelessWidget {
                 ],
               )),
           const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () => print(TimbanganController.stdData.value.hargaGabah),
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                child: Text(
-                  'Penjual Terbanyak',
-                  style: Theme.of(context).textTheme.titleLarge,
-                )),
-          ),
-          TopCustomerList()
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Text(
+                'Penjual Terbanyak',
+                style: Theme.of(context).textTheme.titleLarge,
+              )),
+          const TopCustomerList()
         ],
       ),
     );

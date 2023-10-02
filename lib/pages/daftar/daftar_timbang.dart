@@ -97,7 +97,7 @@ class _DaftarTimbanganState extends State<DaftarTimbangan> {
               );
             },
           ),
-          RekapPanel()
+          const RekapPanel()
         ],
       ),
     );

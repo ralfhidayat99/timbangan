@@ -36,6 +36,21 @@ class Rest {
     }
   }
 
+  putR(url, data) async {
+    Dio dio = Dio();
+
+    try {
+      var res = await dio.put(baseUrl + url, data: data);
+      // print(res);
+      return res.data;
+    } catch (e) {
+      Get.snackbar('OOps!!!', 'sepertinya terjadi masalah');
+      // print(e);
+
+      return e;
+    }
+  }
+
   deleteR(url) async {
     Dio dio = Dio();
 

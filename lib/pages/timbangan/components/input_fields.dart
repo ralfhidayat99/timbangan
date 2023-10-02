@@ -51,7 +51,7 @@ Widget inputFields(
                               // onEditingComplete: () => PelangganController.selectedPelanggan = Pelanggan.empty(),
                               onChanged: (value) => PelangganController
                                   .selectedPelanggan.value = Pelanggan.empty(),
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   errorStyle:
                                       TextStyle(fontSize: 9, height: 0.1),
                                   contentPadding: EdgeInsets.symmetric(

@@ -34,6 +34,20 @@ class AuthController extends GetxController {
     }
   }
 
+  static Future changePass(String oldPass, String newPass) async {
+    isLoading.value = true;
+    var pabrik = storage.box.read('pabrik');
+
+    var res = await Rest().postR('changepassword', {
+      "id": pabrik['id'],
+      "current_password": oldPass,
+      "new_password": newPass,
+    });
+    isLoading.value = false;
+
+    Get.snackbar('!', res['message']);
+  }
+
   static logout() {
     // DataStorage.box.erase();
     storage.box.erase();

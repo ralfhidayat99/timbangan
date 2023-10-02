@@ -29,7 +29,6 @@ class _RekapPanelState extends State<RekapPanel> {
               scrollController.position.maxScrollExtent &&
           !scrollController.position.outOfRange) {
         panelController.expand();
-        print('uppppppppppp');
       } else if (scrollController.offset <=
               scrollController.position.minScrollExtent &&
           !scrollController.position.outOfRange) {
@@ -57,22 +56,7 @@ class _RekapPanelState extends State<RekapPanel> {
       },
       enableOnTap: true,
       //Enable the onTap callback for control bar.
-      dragDown: (details) {
-        print('dragDown');
-      },
-      dragStart: (details) {
-        print('dragStart');
-      },
-      dragCancel: () {
-        print('dragCancel');
-      },
-      dragUpdate: (details) {
-        print(
-            'dragUpdate,${panelController.status == SlidingUpPanelStatus.dragging ? 'dragging' : ''}');
-      },
-      dragEnd: (details) {
-        print('dragEnd');
-      },
+
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15.0),
         decoration: ShapeDecoration(
@@ -202,7 +186,8 @@ class _RekapPanelState extends State<RekapPanel> {
           child: Column(
             children: [
               Text('$n%',
-                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 40, fontWeight: FontWeight.bold)),
               Text(title)
             ],
           ),
