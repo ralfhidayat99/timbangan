@@ -4,6 +4,7 @@ import 'package:timbangan/controllers/auth_controller.dart';
 import 'package:timbangan/controllers/theme_controller.dart';
 
 import '../widgets/titlebar.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -16,8 +17,9 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.blue[200], // Kombinasi warna latar belakang
       body: Column(
         children: [
-          // ignore: prefer_const_constructors
-          TitleBar(),
+          if (!kIsWeb)
+            // ignore: prefer_const_constructors
+            TitleBar(),
           Expanded(
             child: Stack(
               children: [

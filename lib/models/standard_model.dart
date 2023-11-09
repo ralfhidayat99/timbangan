@@ -5,6 +5,7 @@ class StandardData {
   final int hargaGabah;
   final int hargaKuli;
   final int hargaKarung;
+  final int hargaAngkut;
 
   StandardData({
     required this.id,
@@ -13,6 +14,7 @@ class StandardData {
     required this.hargaGabah,
     required this.hargaKuli,
     required this.hargaKarung,
+    required this.hargaAngkut,
   });
 
   StandardData.empty({
@@ -22,6 +24,7 @@ class StandardData {
     this.hargaGabah = 0,
     this.hargaKarung = 0,
     this.hargaKuli = 0,
+    this.hargaAngkut = 0,
   });
 
   factory StandardData.fromJson(Map<String, dynamic> json) => StandardData(
@@ -33,5 +36,7 @@ class StandardData {
         hargaKuli: int.parse(json['harga_kuli'].toString().replaceAll('.', '')),
         hargaKarung:
             int.parse(json['harga_karung'].toString().replaceAll('.', '')),
+        hargaAngkut:
+            int.parse(json['harga_angkut'].toString().replaceAll('.', '')),
       );
 }

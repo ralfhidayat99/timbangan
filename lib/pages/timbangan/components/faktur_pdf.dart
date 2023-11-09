@@ -139,33 +139,33 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
               pw.Table(
                 border: pw.TableBorder.all(),
                 columnWidths: const <int, pw.TableColumnWidth>{
-                  0: pw.FlexColumnWidth(0.5),
-                  1: pw.FlexColumnWidth(0.5),
+                  0: pw.FlexColumnWidth(1),
+                  1: pw.FlexColumnWidth(1),
                   2: pw.FlexColumnWidth(1),
                   3: pw.FlexColumnWidth(1),
-                  4: pw.FlexColumnWidth(1),
                 },
                 defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
                 children: <pw.TableRow>[
                   pw.TableRow(
                     decoration: const pw.BoxDecoration(color: PdfColors.grey),
                     children: <pw.Widget>[
-                      pw.Center(child: pw.Text('Kampas', style: th)),
-                      pw.Center(
-                          child: pw.Column(
-                        children: [
-                          pw.Text('Potongan',
-                              style: pw.TextStyle(
-                                  fontSize: 10,
-                                  color: PdfColors.white,
-                                  fontWeight: pw.FontWeight.bold)),
-                          pw.Text('Karung',
-                              style: pw.TextStyle(
-                                  fontSize: 10,
-                                  color: PdfColors.white,
-                                  fontWeight: pw.FontWeight.bold)),
-                        ],
-                      )),
+                      // pw.Center(child: pw.Text('Kampas', style: th)),
+                      // pw.Center(
+                      //     child: pw.Column(
+                      //   children: [
+                      //     pw.Text('Potongan',
+                      //         style: pw.TextStyle(
+                      //             fontSize: 10,
+                      //             color: PdfColors.white,
+                      //             fontWeight: pw.FontWeight.bold)),
+                      //     pw.Text('Karung',
+                      //         style: pw.TextStyle(
+                      //             fontSize: 10,
+                      //             color: PdfColors.white,
+                      //             fontWeight: pw.FontWeight.bold)),
+                      //   ],
+                      // )),
+                      pw.Center(child: pw.Text('Potongan Karung', style: th)),
                       pw.Center(child: pw.Text('Berat', style: th)),
                       pw.Center(child: pw.Text('Tara', style: th)),
                       pw.Center(child: pw.Text('Netto', style: th)),
@@ -173,16 +173,18 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                   ),
                   pw.TableRow(
                     children: <pw.Widget>[
-                      pw.Center(
-                          child: pw.Padding(
-                        padding: const pw.EdgeInsets.symmetric(vertical: 2.0),
-                        child: pw.Text(dataTimbang.kampas.toString()),
-                      )),
+                      // pw.Center(
+                      //     child: pw.Padding(
+                      //   padding: const pw.EdgeInsets.symmetric(vertical: 2.0),
+                      //   child: pw.Text(dataTimbang.kampas.toString()),
+                      // )),
                       pw.Center(
                           child: pw.Text(
                               (dataTimbang.karung / 2).ceil().toString())),
                       pw.Center(child: pw.Text(dataTimbang.berat.toString())),
-                      pw.Center(child: pw.Text(dataTimbang.tara.toString())),
+                      pw.Center(
+                          child: pw.Text(
+                              '${dataTimbang.tara} - ${dataTimbang.kompensasiTara}')),
                       pw.Center(child: pw.Text(dataTimbang.netto.toString())),
                     ],
                   ),

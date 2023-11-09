@@ -19,6 +19,7 @@ class TimbanganController extends GetxController {
   RxInt kampas = 0.obs,
       berat = 0.obs,
       tara = 0.obs,
+      kompensasiTara = 0.obs,
       netto = 0.obs,
       jmlHrg = 0.obs,
       totalHrg = 0.obs,
@@ -73,6 +74,7 @@ class TimbanganController extends GetxController {
         "Kampas": kampas.value,
         "Berat": berat.value,
         "Tara": tara.value,
+        "kompensasi_tara": kompensasiTara.value,
         "Netto": netto.value,
         "Harga": stdData.value.hargaGabah,
         "id_pembeli": PelangganController.selectedPelanggan.value.id,
@@ -134,14 +136,15 @@ class TimbanganController extends GetxController {
     int karung =
         cKarung.text == '' ? 0 : int.parse(cKarung.text.replaceAll('.', ''));
 
-    kampas.value = (karung * 1.5).ceil();
+    // kampas.value = (karung * 1.5).ceil();
     berat.value = timbangan - kampas.value - (karung * 0.5).ceil();
     berat.value = berat < 0 ? 0 : berat.value;
     ongKuli.value = karung * stdData.value.hargaKuli;
     ongKarung.value = karung * stdData.value.hargaKarung;
-    ongAngkut.value = tPotonganAngkut.text == ''
-        ? 0
-        : int.parse(tPotonganAngkut.text.replaceAll('.', ''));
+    ongAngkut.value = timbangan * stdData.value.hargaAngkut;
+    // ongAngkut.value = tPotonganAngkut.text == ''
+    //     ? 0
+    //     : int.parse(tPotonganAngkut.text.replaceAll('.', ''));
     hitungTara();
   }
 
@@ -154,18 +157,19 @@ class TimbanganController extends GetxController {
 
     tara.value = ((kA - kaStandard) + (hA - haStandard));
     tara.value = tara.value < 0 ? 0 : tara.value;
-    netto.value = berat.value - (tara.value * berat.value / 100).ceil();
+    netto.value = berat.value -
+        ((tara.value - kompensasiTara.value) * berat.value / 100).ceil();
     jmlHrg.value = stdData.value.hargaGabah * netto.value;
     totalHrg.value = stdData.value.hargaGabah * netto.value;
     if (potonganAngkut.value) {
-      totalHrg.value = totalHrg.value - ongAngkut.value;
+      totalHrg.value = totalHrg.value + ongAngkut.value;
     }
     if (potonganKuli.value) {
       // print(potonganKuli);
-      totalHrg.value = totalHrg.value - ongKuli.value;
+      totalHrg.value = totalHrg.value + ongKuli.value;
     }
     if (potonganKarung.value) {
-      totalHrg.value = totalHrg.value - ongKarung.value;
+      totalHrg.value = totalHrg.value + ongKarung.value;
     }
     // netto.value = berat.value;
   }

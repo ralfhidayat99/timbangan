@@ -9,6 +9,7 @@ import '../../../utils/formatter.dart';
 import 'textfiled.dart';
 
 Widget outPutField(context, TimbanganController cDataTimbang) {
+  TextEditingController tKompensasiTara = TextEditingController();
   return Container(
     color: CustomColors.bgColor.value,
     child: Column(
@@ -21,17 +22,41 @@ Widget outPutField(context, TimbanganController cDataTimbang) {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Obx(() => Column(
                       children: [
-                        resultField(
-                            context, 'Kampas', cDataTimbang.kampas.value, 'Kg'),
+                        // resultField(
+                        //     context, 'Kampas', cDataTimbang.kampas.value, 'Kg'),
+                        inputKampas(context, cDataTimbang),
                         const SizedBox(height: 2),
                         resultField(
-                            context, 'Berat', cDataTimbang.berat.value, 'Kg'),
+                            context,
+                            'Berat',
+                            formatRupiah(cDataTimbang.berat.value),
+                            'Kg',
+                            () {}),
                         const SizedBox(height: 2),
                         resultField(
-                            context, 'Tara', cDataTimbang.tara.value, '%'),
+                          context,
+                          'Tara',
+                          '${cDataTimbang.tara} - ${cDataTimbang.kompensasiTara}',
+                          '%',
+                          () => Get.defaultDialog(
+                              title: 'kompensasi Tara',
+                              content: customTextField(tKompensasiTara,
+                                  'kompensasi Tara', () {}, true),
+                              onConfirm: () {
+                                print(tKompensasiTara.text);
+                                cDataTimbang.kompensasiTara.value =
+                                    int.parse(tKompensasiTara.text);
+                                Get.back();
+                                cDataTimbang.hitungTara();
+                              }),
+                        ),
                         const SizedBox(height: 2),
                         resultField(
-                            context, 'Netto', cDataTimbang.netto.value, 'Kg'),
+                            context,
+                            'Netto',
+                            formatRupiah(cDataTimbang.netto.value),
+                            'Kg',
+                            () {}),
                       ],
                     )),
               ),
@@ -117,46 +142,56 @@ Widget outPutField(context, TimbanganController cDataTimbang) {
                                       Visibility(
                                         visible: TimbanganController
                                             .potonganAngkut.value,
-                                        child: SizedBox(
-                                          height: 40,
-                                          child: TextFormField(
-                                            onChanged: (value) {
-                                              // Saat teks berubah, format angka dan tampilkan kembali di TextField
-                                              final numericValue = int.tryParse(
-                                                  value.replaceAll('.', ''));
-                                              if (numericValue != null) {
-                                                final formattedValue =
-                                                    formatRupiah(numericValue);
-                                                cDataTimbang.tPotonganAngkut
-                                                    .value = TextEditingValue(
-                                                  text: formattedValue,
-                                                  selection:
-                                                      TextSelection.collapsed(
-                                                          offset: formattedValue
-                                                              .length),
-                                                );
-                                                cDataTimbang.hitungKampas();
-                                              }
-                                            },
-                                            controller:
-                                                cDataTimbang.tPotonganAngkut,
-                                            style: const TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600),
-                                            inputFormatters: [
-                                              FilteringTextInputFormatter.allow(
-                                                  RegExp(r'[0-9.]')),
-                                            ],
-                                            textAlign: TextAlign.end,
-                                            autofocus: true,
-                                            decoration: const InputDecoration(
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 0,
-                                                        horizontal: 0)),
-                                          ),
-                                        ),
+                                        child: Text(
+                                            formatRupiah(
+                                                cDataTimbang.ongAngkut.value),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge),
                                       ),
+                                      // Visibility(
+                                      //   visible: TimbanganController
+                                      //       .potonganAngkut.value,
+                                      //   child: SizedBox(
+                                      //     height: 40,
+                                      //     child: TextFormField(
+                                      //       onChanged: (value) {
+                                      //         // Saat teks berubah, format angka dan tampilkan kembali di TextField
+                                      //         final numericValue = int.tryParse(
+                                      //             value.replaceAll('.', ''));
+                                      //         if (numericValue != null) {
+                                      //           final formattedValue =
+                                      //               formatRupiah(numericValue);
+                                      //           cDataTimbang.tPotonganAngkut
+                                      //               .value = TextEditingValue(
+                                      //             text: formattedValue,
+                                      //             selection:
+                                      //                 TextSelection.collapsed(
+                                      //                     offset: formattedValue
+                                      //                         .length),
+                                      //           );
+                                      //           cDataTimbang.hitungKampas();
+                                      //         }
+                                      //       },
+                                      //       controller:
+                                      //           cDataTimbang.tPotonganAngkut,
+                                      //       style: const TextStyle(
+                                      //           fontSize: 20,
+                                      //           fontWeight: FontWeight.w600),
+                                      //       inputFormatters: [
+                                      //         FilteringTextInputFormatter.allow(
+                                      //             RegExp(r'[0-9.]')),
+                                      //       ],
+                                      //       textAlign: TextAlign.end,
+                                      //       autofocus: true,
+                                      //       decoration: const InputDecoration(
+                                      //           contentPadding:
+                                      //               EdgeInsets.symmetric(
+                                      //                   vertical: 0,
+                                      //                   horizontal: 0)),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ),

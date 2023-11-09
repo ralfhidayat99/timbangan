@@ -39,6 +39,10 @@ class MasterPage extends StatelessWidget {
                       title: 'Harga Karung',
                       value: TimbanganController.stdData.value.hargaKarung,
                       std: 'harga_karung'),
+                  StdCard(
+                      title: 'Harga Angkut',
+                      value: TimbanganController.stdData.value.hargaAngkut,
+                      std: 'harga_angkut'),
                 ],
               )),
           const SizedBox(height: 20),

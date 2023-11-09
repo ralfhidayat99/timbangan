@@ -6,6 +6,7 @@ import 'controllers/navigation_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'widgets/side_menu.dart';
 import 'widgets/titlebar.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -20,8 +21,10 @@ class HomePage extends StatelessWidget {
           endDrawer: const SideDrawer(),
           body: Column(
             children: [
-              // ignore: prefer_const_constructors
-              TitleBar(),
+              // TitleBar(),
+              if (!kIsWeb)
+                // ignore: prefer_const_constructors
+                TitleBar(),
               Expanded(
                 child: Row(
                   children: [

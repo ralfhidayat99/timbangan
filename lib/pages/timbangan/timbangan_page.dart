@@ -51,16 +51,21 @@ class TimbanganPage extends StatelessWidget {
                         pelanggan:
                             PelangganController.selectedPelanggan.value)))
                     .then((value) {
-                  cDataTimbang.cTimbangan.clear();
-                  cDataTimbang.cKarung.clear();
-                  cDataTimbang.cKA.clear();
-                  cDataTimbang.cHA.clear();
-                  cDataTimbang.tNopol.clear();
-                  cDataTimbang.hitungKampas();
-                  cDataTimbang.hitungTara();
-                  PelangganController.tNama.clear();
-                  PelangganController.tAlamat.clear();
-                }).then((value) => cDataTimbang.getInitData());
+                      cDataTimbang.cTimbangan.clear();
+                      cDataTimbang.cKarung.clear();
+                      cDataTimbang.cKA.clear();
+                      cDataTimbang.cHA.clear();
+                      cDataTimbang.tNopol.clear();
+                      cDataTimbang.hitungKampas();
+                      cDataTimbang.hitungTara();
+                      PelangganController.tNama.clear();
+                      PelangganController.tAlamat.clear();
+                    })
+                    .then((value) => cDataTimbang.getInitData())
+                    .then((value) {
+                      cDataTimbang.kompensasiTara.value = 0;
+                      cDataTimbang.kampas.value = 0;
+                    });
                 // print('proceeed');
               }
             },

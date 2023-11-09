@@ -10,6 +10,7 @@ class DataTimbang {
   final int kampas;
   final int berat;
   final int tara;
+  final int kompensasiTara;
   final int netto;
   final int harga;
   final int potonganKuli;
@@ -31,6 +32,7 @@ class DataTimbang {
     required this.kampas,
     required this.berat,
     required this.tara,
+    required this.kompensasiTara,
     required this.netto,
     required this.harga,
     required this.potonganKuli,
@@ -52,6 +54,7 @@ class DataTimbang {
     this.kampas = 0,
     this.berat = 0,
     this.tara = 0,
+    this.kompensasiTara = 0,
     this.netto = 0,
     this.harga = 0,
     this.potonganKuli = 0,
@@ -75,6 +78,7 @@ class DataTimbang {
       kampas: int.parse(json['Kampas'].toString()),
       berat: int.parse(json['Berat'].toString()),
       tara: int.parse(json['Tara'].toString()),
+      kompensasiTara: int.parse(json['kompensasi_tara'].toString()),
       netto: int.parse(json['Netto'].toString()),
       harga: int.parse(json['Harga'].toString()),
       potonganKuli: int.parse(json['potongan_kuli'].toString()),
@@ -86,9 +90,9 @@ class DataTimbang {
       // tanggal: '',
       canceled: json['canceled'].toString() == '0' ? false : true,
       totalHarga: (int.parse(json['Netto'].toString()) *
-              int.parse(json['Harga'].toString())) -
-          int.parse(json['potongan_kuli'].toString()) -
-          int.parse(json['potongan_angkut'].toString()) -
+              int.parse(json['Harga'].toString())) +
+          int.parse(json['potongan_kuli'].toString()) +
+          int.parse(json['potongan_angkut'].toString()) +
           int.parse(json['potongan_karung'].toString()));
 }
 

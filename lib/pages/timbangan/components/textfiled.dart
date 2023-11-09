@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:timbangan/controllers/timbangan_controller.dart';
 
 import '../../../controllers/theme_controller.dart';
 import '../../../utils/formatter.dart';
@@ -44,7 +45,8 @@ Widget customTextField(TextEditingController controller, String label,
   );
 }
 
-Widget resultField(context, String prefix, int output, String suffix) {
+Widget resultField(
+    context, String prefix, String output, String suffix, Function callback) {
   return Container(
     width: double.infinity,
     height: 50,
@@ -71,13 +73,17 @@ Widget resultField(context, String prefix, int output, String suffix) {
           )),
         ),
         Expanded(
-            child: Container(
-          color: CustomColors.windowBtnArea.value,
+            child: ElevatedButton(
+          // color: CustomColors.windowBtnArea.value,
+          style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(CustomColors.windowBtnArea.value)),
+          onPressed: () => callback(),
           child: Center(
             child: FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(
-                formatRupiah(output),
+                output,
                 style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 21,
@@ -98,6 +104,74 @@ Widget resultField(context, String prefix, int output, String suffix) {
             suffix,
             style: const TextStyle(
                 fontFamily: 'Roboto', fontWeight: FontWeight.bold),
+          )),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget inputKampas(context, TimbanganController cDataTimbang) {
+  return Container(
+    width: double.infinity,
+    height: 50,
+    margin: const EdgeInsets.symmetric(vertical: 2),
+    decoration: BoxDecoration(
+        border: Border.all(
+          color: CustomColors.highLightColor.value.withAlpha(30),
+          width: 2,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(5))),
+    child: Row(
+      children: [
+        Container(
+          height: double.infinity,
+          width: 80,
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          color: CustomColors.highLightColor.value.withAlpha(30),
+          child: const Center(
+              child: Text(
+            'Kampas',
+            style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
+          )),
+        ),
+        Expanded(
+            child: Container(
+                color: CustomColors.windowBtnArea.value,
+                height: 50,
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 21),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                  ],
+                  onChanged: (value) {
+                    value = value == '' ? '0' : value;
+
+                    cDataTimbang.kampas.value = int.parse(value);
+                    cDataTimbang.hitungKampas();
+                  },
+                ))),
+        // Expanded(
+        //     child: Container(
+        //   color: CustomColors.windowBtnArea.value,
+        //   child: Center(
+        //     child: FittedBox(fit: BoxFit.fitWidth, child: TextField()),
+        //   ),
+        // )),
+        Container(
+          height: double.infinity,
+          width: 30,
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          // color: CustomColors.cardHeader.value,
+          color: CustomColors.highLightColor.value.withAlpha(30),
+          child: const Center(
+              child: Text(
+            'kg',
+            style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.bold),
           )),
         ),
       ],

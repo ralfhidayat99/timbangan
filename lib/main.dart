@@ -5,26 +5,26 @@ import 'package:window_manager/window_manager.dart';
 
 import 'auth/login_page.dart';
 import 'controllers/theme_controller.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Must add this line.
-  await windowManager.ensureInitialized();
-  await GetStorage.init();
-
-  WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 700),
-      backgroundColor: Colors.white,
-      center: true,
-      skipTaskbar: false,
-      title: "Digital DT",
-      titleBarStyle: TitleBarStyle.hidden,
-      windowButtonVisibility: false);
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-  });
+  if (!kIsWeb) {
+    await windowManager.ensureInitialized();
+    WindowOptions windowOptions = const WindowOptions(
+        size: Size(800, 700),
+        backgroundColor: Colors.white,
+        center: true,
+        skipTaskbar: false,
+        title: "Digital DT",
+        titleBarStyle: TitleBarStyle.hidden,
+        windowButtonVisibility: false);
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
   await GetStorage.init();
 
   runApp(const MyApp());

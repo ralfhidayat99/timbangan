@@ -27,7 +27,7 @@ class AuthController extends GetxController {
 
       storage.writeUser(user);
       storage.writePabrik(pabrik);
-
+      // print(user);
       Get.to(() => const HomePage());
     } else {
       Get.snackbar('Login failed', res['message']);
