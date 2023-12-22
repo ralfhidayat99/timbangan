@@ -24,7 +24,7 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
   pw.TextStyle thead1 =
       pw.TextStyle(fontSize: 21, fontWeight: pw.FontWeight.bold);
   pw.TextStyle th =
-      pw.TextStyle(color: PdfColors.white, fontWeight: pw.FontWeight.bold);
+      pw.TextStyle(color: PdfColors.black, fontWeight: pw.FontWeight.bold);
   pw.TextStyle tdReg = const pw.TextStyle(color: PdfColors.black);
   pw.TextStyle tdSmall =
       const pw.TextStyle(color: PdfColors.black, fontSize: 8);
@@ -107,7 +107,7 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                 defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
                 children: <pw.TableRow>[
                   pw.TableRow(
-                    decoration: const pw.BoxDecoration(color: PdfColors.grey),
+                    // decoration: const pw.BoxDecoration(color: PdfColors.grey),
                     children: <pw.Widget>[
                       pw.Center(
                           child: pw.Padding(
@@ -147,7 +147,7 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                 defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
                 children: <pw.TableRow>[
                   pw.TableRow(
-                    decoration: const pw.BoxDecoration(color: PdfColors.grey),
+                    // decoration: const pw.BoxDecoration(color: PdfColors.grey),
                     children: <pw.Widget>[
                       // pw.Center(child: pw.Text('Kampas', style: th)),
                       // pw.Center(
@@ -255,57 +255,57 @@ Future<Uint8List> generatePdf(PdfPageFormat format, parentWidth,
                         defaultVerticalAlignment:
                             pw.TableCellVerticalAlignment.middle,
                         children: <pw.TableRow>[
-                          pw.TableRow(
-                            children: <pw.Widget>[
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child:
-                                      pw.Text('Jumlah Kotor :', style: tdReg)),
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text(
-                                      formatRupiah(dataTimbang.netto *
-                                          dataTimbang.harga),
-                                      style: tdBold)),
-                              pw.SizedBox(),
-                            ],
-                          ),
-                          pw.TableRow(
-                            children: <pw.Widget>[
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text('Potongan Kuli :')),
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text(
-                                      formatRupiah(dataTimbang.potonganKuli),
-                                      style: tdBold)),
-                            ],
-                          ),
-                          pw.TableRow(
-                            children: <pw.Widget>[
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text('Potongan Karung :')),
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text(
-                                      formatRupiah(dataTimbang.potonganKarung),
-                                      style: tdBold)),
-                            ],
-                          ),
-                          pw.TableRow(
-                            children: <pw.Widget>[
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text('Potongan Angkut :')),
-                              pw.Align(
-                                  alignment: pw.Alignment.bottomRight,
-                                  child: pw.Text(
-                                      formatRupiah(dataTimbang.potonganAngkut),
-                                      style: tdBold)),
-                            ],
-                          ),
+                          // pw.TableRow(
+                          //   children: <pw.Widget>[
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child:
+                          //             pw.Text('Jumlah Kotor :', style: tdReg)),
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text(
+                          //             formatRupiah(dataTimbang.netto *
+                          //                 dataTimbang.harga),
+                          //             style: tdBold)),
+                          //     pw.SizedBox(),
+                          //   ],
+                          // ),
+                          // pw.TableRow(
+                          //   children: <pw.Widget>[
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text('Potongan Kuli :')),
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text(
+                          //             formatRupiah(dataTimbang.potonganKuli),
+                          //             style: tdBold)),
+                          //   ],
+                          // ),
+                          // pw.TableRow(
+                          //   children: <pw.Widget>[
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text('Potongan Karung :')),
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text(
+                          //             formatRupiah(dataTimbang.potonganKarung),
+                          //             style: tdBold)),
+                          //   ],
+                          // ),
+                          // pw.TableRow(
+                          //   children: <pw.Widget>[
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text('Potongan Angkut :')),
+                          //     pw.Align(
+                          //         alignment: pw.Alignment.bottomRight,
+                          //         child: pw.Text(
+                          //             formatRupiah(dataTimbang.potonganAngkut),
+                          //             style: tdBold)),
+                          //   ],
+                          // ),
                           pw.TableRow(
                             children: <pw.Widget>[
                               pw.Divider(),
